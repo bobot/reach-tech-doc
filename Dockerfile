@@ -4,4 +4,4 @@
 
 FROM nginx
 
-ADD build /usr/share/nginx/html
+ADD build/html /usr/share/nginx/html

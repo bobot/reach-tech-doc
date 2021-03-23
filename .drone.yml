@@ -39,7 +39,7 @@ steps:
       kubernetes_token:
         from_secret: SAC_TOKEN
     commands:
-      - kubectl apply -f kubernetes/namespace-dist.yaml
+      - kubectl apply --validate=false -f kubernetes/namespace-dist.yaml 
 
   - name: deploy
     image: danielgormly/drone-plugin-kube:0.1.0

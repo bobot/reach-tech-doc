@@ -40,7 +40,7 @@ steps:
     - cat kubernetes/service.yaml | envsubst > kubernetes/service-dist.yaml
     - cat kubernetes/ingress.yaml | envsubst > kubernetes/ingress-dist.yaml
     environment:
-    - DRONE_REPO_BRANCH: ${DRONE_REPO_BRANCH}
+      DRONE_REPO_BRANCH: ${DRONE_REPO_BRANCH}
 
   - name: service
     image: sinlead/drone-kubectl

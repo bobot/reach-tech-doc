@@ -21,12 +21,15 @@ steps:
       tags: ${DRONE_BRANCH}-${DRONE_BUILD_NUMBER}
 
   - name: deploy
-    image: danielgormly/drone-plugin-kube:0.0.1
+    image: danielgormly/drone-plugin-kube:0.1.0
     settings:
       template: kubernetes/deployment.yaml
       server: https://rancher.deustotech.eu/k8s/clusters/c-tfxjq
+      namespace: reach-tech-doc
       token:
         from_secret: SAC_TOKEN
       ca:
         from_secret: PLUGIN_CA
+      build_number: ${DRONE_BUILD_NUMBER}
+      branch: ${DRONE_BRANCH}
     

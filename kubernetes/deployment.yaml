@@ -21,4 +21,4 @@ spec:
         - name: robot
       containers:
         - name: tech-doc
-          image: registry.apps.deustotech.eu/reach/reach-tech-doc:${DRONE_BRANCH}-${DRONE_BUILD_NUMBER}
+          image: registry.apps.deustotech.eu/reach/reach-tech-doc:{{ branch }}-{{ build_number }}

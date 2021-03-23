@@ -20,6 +20,18 @@ steps:
       registry: registry.apps.deustotech.eu
       tags: ${DRONE_REPO_BRANCH}-${DRONE_BUILD_NUMBER}
 
+  - name: create-namespace
+    image: sinlead/drone-kubectl
+    settings:
+      kubernetes_server: https://rancher.deustotech.eu/k8s/clusters/c-tfxjq
+      kubernetes_cert:
+        from_secret: PLUGIN_CA
+      kubernetes_token:
+        from_secret: SAC_TOKEN
+    commands:
+      - kubectl create namespace reach-tech-doc-${DRONE_REPO_BRANCH}
+      - kubectl annotate namespace reach-tech-doc-${DRONE_REPO_BRANCH} field.cattle.io/projectId=c-tfxjq:project-2wgnk
+
   - name: deploy
     image: danielgormly/drone-plugin-kube:0.1.0
     settings:

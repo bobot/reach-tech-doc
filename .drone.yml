@@ -19,4 +19,12 @@ steps:
       repo: registry.apps.deustotech.eu/reach/reach-tech-doc
       registry: registry.apps.deustotech.eu
       tags: ${DRONE_BRANCH}-${DRONE_BUILD_NUMBER}
-      debug: true
+
+  - name: deploy
+    image: danielgormly/drone-plugin-kube:0.0.1
+    settings:
+      template: kubernetes/deployment.yaml
+      server: https://rancher.deustotech.eu/k8s/clusters/c-tfxjq
+      token:
+        from_secret: SAC_TOKEN
+    

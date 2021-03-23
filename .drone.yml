@@ -10,7 +10,7 @@ steps:
     - pip install -U sphinx
     - make html
 
-  - name: build image
+  - name: build
     image: plugins/docker
     settings:
       username: robot$tech-doc

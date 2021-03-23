@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tech-doc
+  namespace: reach-tech-doc
+  labels:
+    app: tech-doc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tech-doc
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: tech-doc
+    spec:
+      imagePullSecrets:
+        - name: robot
+      containers:
+        - name: tech-doc
+          image: registry.apps.deustotech.eu/reach/reach-tech-doc:{{ branch }}-{{ build_number }}

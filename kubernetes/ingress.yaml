@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+  name: docs.reach.apps.deustotech.eu
+  namespace: reach-tech-doc
+spec:
+  rules:
+  - host: docs.reach.apps.deustotech.eu
+    http:
+      paths:
+      - backend:
+          serviceName: tech-doc
+          servicePort: 80
+  tls:
+  - hosts:
+    - docs.reach.apps.deustotech.eu
+    secretName: docs-reach-cert

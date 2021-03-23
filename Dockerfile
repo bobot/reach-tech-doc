@@ -5,3 +5,5 @@
 FROM nginx
 
 ADD build/html /usr/share/nginx/html
+
+EXPOSE 80

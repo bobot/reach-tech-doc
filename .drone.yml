@@ -16,6 +16,6 @@ steps:
       username: robot$tech-doc
       password:
         from_secret: REGISTRY_PASSWORD
-    repo: registry.apps.deustotech.eu/reach/reach-tech-doc
+    repo: reach/reach-tech-doc
     registry: registry.apps.deustotech.eu
     tags: ${DRONE_BRANCH}-${DRONE_BUILD_NUMBER}

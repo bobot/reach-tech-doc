@@ -27,4 +27,6 @@ steps:
       server: https://rancher.deustotech.eu/k8s/clusters/c-tfxjq
       token:
         from_secret: SAC_TOKEN
+      ca:
+        from_secret: PLUGIN_CA
     

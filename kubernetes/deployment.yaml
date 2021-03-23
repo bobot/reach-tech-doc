@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: tech-doc
-  namespace: reach-tech-doc
+  namespace: reach-tech-doc-{{ branch }}
   labels:
     app: tech-doc
 spec:

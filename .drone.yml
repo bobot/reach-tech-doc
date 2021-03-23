@@ -40,7 +40,7 @@ steps:
         from_secret: SAC_TOKEN
     commands:
       - kubectl apply -f kubernetes/namespace-dist.yaml
-      - kubectl annotate namespace mynamespace field.cattle.io/projectId=c-sqc8w:p-2wgnk
+      - kubectl annotate namespace reach-tech-doc-${DRONE_COMMIT_BRANCH} field.cattle.io/projectId=c-sqc8w:p-2wgnk
 
   - name: deploy
     image: danielgormly/drone-plugin-kube:0.1.0

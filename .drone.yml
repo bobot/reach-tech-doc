@@ -18,20 +18,29 @@ steps:
         from_secret: REGISTRY_PASSWORD
       repo: registry.apps.deustotech.eu/reach/reach-tech-doc
       registry: registry.apps.deustotech.eu
-      tags: ${DRONE_BRANCH}-${DRONE_BUILD_NUMBER}
+      tags: ${DRONE_REPO_BRANCH}-${DRONE_BUILD_NUMBER}
 
   - name: deploy
     image: danielgormly/drone-plugin-kube:0.1.0
     settings:
       template: kubernetes/deployment.yaml
       server: https://rancher.deustotech.eu/k8s/clusters/c-tfxjq
-      namespace: reach-tech-doc
+      namespace: reach-tech-doc-${DRONE_REPO_BRANCH}
       token:
         from_secret: SAC_TOKEN
       ca:
         from_secret: PLUGIN_CA
       build_number: ${DRONE_BUILD_NUMBER}
-      branch: ${DRONE_BRANCH}
+      branch: ${DRONE_REPO_BRANCH}
+
+  - name: variable-replacement
+    image: alpine
+    commands:
+    - apk add gettext
+    - cat kubernetes/service.yaml | envsubst > kubernetes/service-dist.yaml
+    - cat kubernetes/ingress.yaml | envsubst > kubernetes/ingress-dist.yaml
+    environment:
+    - DRONE_REPO_BRANCH: ${DRONE_REPO_BRANCH}
 
   - name: service
     image: sinlead/drone-kubectl
@@ -42,6 +51,6 @@ steps:
       kubernetes_token:
         from_secret: SAC_TOKEN
     commands:
-      - kubectl apply -f kubernetes/service.yaml
-      - kubectl apply -f kubernetes/ingress.yaml
+      - kubectl apply -f kubernetes/service-dist.yaml
+      - kubectl apply -f kubernetes/ingress-dist.yaml
     

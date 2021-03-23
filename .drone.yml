@@ -20,6 +20,16 @@ steps:
       registry: registry.apps.deustotech.eu
       tags: ${DRONE_REPO_BRANCH}-${DRONE_BUILD_NUMBER}
 
+  - name: variable-replacement
+    image: alpine
+    commands:
+    - apk add gettext
+    - cat kubernetes/service.yaml | envsubst > kubernetes/service-dist.yaml
+    - cat kubernetes/ingress.yaml | envsubst > kubernetes/ingress-dist.yaml
+    - cat kubernetes/namespace.yaml | envsubst > kubernetes/namespace-dist.yaml
+    environment:
+      DRONE_REPO_BRANCH: ${DRONE_REPO_BRANCH}
+
   - name: create-namespace
     image: sinlead/drone-kubectl
     settings:
@@ -29,8 +39,7 @@ steps:
       kubernetes_token:
         from_secret: SAC_TOKEN
     commands:
-      - kubectl create namespace reach-tech-doc-${DRONE_REPO_BRANCH}
-      - kubectl annotate namespace reach-tech-doc-${DRONE_REPO_BRANCH} field.cattle.io/projectId=c-tfxjq:project-2wgnk
+      - kubectl apply -f kubernetes/namespace-dist.yaml
 
   - name: deploy
     image: danielgormly/drone-plugin-kube:0.1.0
@@ -44,15 +53,6 @@ steps:
         from_secret: PLUGIN_CA
       build_number: ${DRONE_BUILD_NUMBER}
       branch: ${DRONE_REPO_BRANCH}
-
-  - name: variable-replacement
-    image: alpine
-    commands:
-    - apk add gettext
-    - cat kubernetes/service.yaml | envsubst > kubernetes/service-dist.yaml
-    - cat kubernetes/ingress.yaml | envsubst > kubernetes/ingress-dist.yaml
-    environment:
-      DRONE_REPO_BRANCH: ${DRONE_REPO_BRANCH}
 
   - name: service
     image: sinlead/drone-kubectl

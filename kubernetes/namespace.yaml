@@ -1,0 +1,6 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: reach-tech-doc-${DRONE_REPO_BRANCH}
+annotations: 
+   field.cattle.io/projectId: c-sqc8w:p-2wgnk

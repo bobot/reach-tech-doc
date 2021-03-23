@@ -66,4 +66,12 @@ steps:
     commands:
       - kubectl apply -f kubernetes/service-dist.yaml
       - kubectl apply -f kubernetes/ingress-dist.yaml
+      - echo "Congratulations! You can access your deployment at https://docs-${DRONE_COMMIT_BRANCH}.reach.apps.deustotech.eu"
+
+  # - name: show-url
+  #   image: alpine
+  #   environment:
+  #     DRONE_COMMIT_BRANCH: ${DRONE_COMMIT_BRANCH}
+  #   commands:
+  #   - echo "Congratulations! You can access your deployment at https://docs-${DRONE_COMMIT_BRANCH}.reach.apps.deustotech.eu"
     

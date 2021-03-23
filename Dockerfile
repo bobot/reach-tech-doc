@@ -2,6 +2,6 @@
 
 # RUN pip install -U sphinx
 
-FROM scratch
+FROM nginx
 
-ADD build /build
+ADD build /usr/share/nginx/html

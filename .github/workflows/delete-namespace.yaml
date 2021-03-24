@@ -12,4 +12,4 @@ jobs:
         name: Delete unused namespace
         with:
           kubeconfig: ${{ secrets.KUBE_CONFIG }}
-          args: delete namespace reach-tech-doc-${{ GITHUB_REF }}
+          args: delete namespace reach-tech-doc-$GITHUB_REF

@@ -1,0 +1,15 @@
+name: Delete k8s deployment
+
+# Controls when the action will run. 
+on: delete
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+     runs-on: ubuntu-latest
+     steps:
+      - uses: danielr1996/kubectl-action@1.0.0
+        name: Delete unused namespace
+        with:
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+          args: delete namespace reach-tech-doc-${{ GITHUB_REF }}

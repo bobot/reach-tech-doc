@@ -18,7 +18,7 @@ steps:
         from_secret: REGISTRY_PASSWORD
       repo: registry.apps.deustotech.eu/reach/reach-tech-doc
       registry: registry.apps.deustotech.eu
-      tags: ${DRONE_COMMIT_BRANCH}-${DRONE_BUILD_NUMBER}
+      tags: ${DRONE_SOURCE_BRANCH}-${DRONE_BUILD_NUMBER}
 
   - name: variable-replacement
     image: alpine
@@ -28,7 +28,7 @@ steps:
     - cat kubernetes/ingress.yaml | envsubst > kubernetes/ingress-dist.yaml
     - cat kubernetes/namespace.yaml | envsubst > kubernetes/namespace-dist.yaml
     environment:
-      DRONE_COMMIT_BRANCH: ${DRONE_COMMIT_BRANCH}
+      DRONE_SOURCE_BRANCH: ${DRONE_SOURCE_BRANCH}
 
   - name: create-namespace
     image: sinlead/drone-kubectl
@@ -40,20 +40,20 @@ steps:
         from_secret: SAC_TOKEN
     commands:
       - kubectl apply -f kubernetes/namespace-dist.yaml
-      - kubectl annotate namespace reach-tech-doc-${DRONE_COMMIT_BRANCH} field.cattle.io/projectId=c-tfxjq:p-2wgnk
+      - kubectl annotate namespace reach-tech-doc-${DRONE_SOURCE_BRANCH} field.cattle.io/projectId=c-tfxjq:p-2wgnk
 
   - name: deploy
     image: danielgormly/drone-plugin-kube:0.1.0
     settings:
       template: kubernetes/deployment.yaml
       server: https://rancher.deustotech.eu/k8s/clusters/c-tfxjq
-      namespace: reach-tech-doc-${DRONE_COMMIT_BRANCH}
+      namespace: reach-tech-doc-${DRONE_SOURCE_BRANCH}
       token:
         from_secret: SAC_TOKEN
       ca:
         from_secret: PLUGIN_CA
       build_number: ${DRONE_BUILD_NUMBER}
-      branch: ${DRONE_COMMIT_BRANCH}
+      branch: ${DRONE_SOURCE_BRANCH}
 
   - name: service
     image: sinlead/drone-kubectl
@@ -66,12 +66,12 @@ steps:
     commands:
       - kubectl apply -f kubernetes/service-dist.yaml
       - kubectl apply -f kubernetes/ingress-dist.yaml
-      - echo "Congratulations! You can access your deployment at https://docs-${DRONE_COMMIT_BRANCH}.reach.apps.deustotech.eu"
+      - echo "Congratulations! You can access your deployment at https://docs-${DRONE_SOURCE_BRANCH}.reach.apps.deustotech.eu"
 
   # - name: show-url
   #   image: alpine
   #   environment:
-  #     DRONE_COMMIT_BRANCH: ${DRONE_COMMIT_BRANCH}
+  #     DRONE_SOURCE_BRANCH: ${DRONE_SOURCE_BRANCH}
   #   commands:
-  #   - echo "Congratulations! You can access your deployment at https://docs-${DRONE_COMMIT_BRANCH}.reach.apps.deustotech.eu"
+  #   - echo "Congratulations! You can access your deployment at https://docs-${DRONE_SOURCE_BRANCH}.reach.apps.deustotech.eu"
     

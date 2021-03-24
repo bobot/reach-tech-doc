@@ -2,12 +2,12 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt
+    cert-manager.io/cluster-issuer: letsencrypt-staging
   name: docs.reach.apps.deustotech.eu
-  namespace: reach-tech-doc
+  namespace: reach-tech-doc-${DRONE_SOURCE_BRANCH}
 spec:
   rules:
-  - host: docs.reach.apps.deustotech.eu
+  - host: docs-${DRONE_SOURCE_BRANCH}.reach.apps.deustotech.eu
     http:
       paths:
       - backend:
@@ -15,5 +15,5 @@ spec:
           servicePort: 80
   tls:
   - hosts:
-    - docs.reach.apps.deustotech.eu
-    secretName: docs-reach-cert
+    - docs-${DRONE_SOURCE_BRANCH}.reach.apps.deustotech.eu
+    secretName: docs-${DRONE_SOURCE_BRANCH}-reach-cert

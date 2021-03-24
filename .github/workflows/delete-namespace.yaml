@@ -8,8 +8,13 @@ jobs:
   build:
      runs-on: ubuntu-latest
      steps:
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+
       - uses: danielr1996/kubectl-action@1.0.0
         name: Delete unused namespace
         with:
           kubeconfig: ${{ secrets.KUBE_CONFIG }}
-          args: delete namespace/reach-tech-doc-$GITHUB_REF
+          args: delete namespace/reach-tech-doc-${{ steps.extract_branch.outputs.branch }}

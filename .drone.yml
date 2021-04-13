@@ -51,8 +51,8 @@ steps:
       token:
         from_secret: SAC_TOKEN
       skip_tls: True
-      # ca:
-      #   from_secret: PLUGIN_CA
+      ca:
+        from_secret: PLUGIN_CA
       build_number: ${DRONE_BUILD_NUMBER}
       branch: ${DRONE_SOURCE_BRANCH}
 

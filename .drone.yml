@@ -27,8 +27,10 @@ steps:
     - cat kubernetes/service.yaml | envsubst > kubernetes/service-dist.yaml
     - cat kubernetes/ingress.yaml | envsubst > kubernetes/ingress-dist.yaml
     - cat kubernetes/namespace.yaml | envsubst > kubernetes/namespace-dist.yaml
+    - cat kubernetes/deployment.yaml | envsubst > kubernetes/deployment-dist.yaml
     environment:
       DRONE_SOURCE_BRANCH: ${DRONE_SOURCE_BRANCH}
+      DRONE_BUILD_NUMBER: ${DRONE_BUILD_NUMBER}
 
   - name: create-namespace
     image: sinlead/drone-kubectl
@@ -43,17 +45,15 @@ steps:
       - kubectl annotate namespace --overwrite=true reach-tech-doc-${DRONE_SOURCE_BRANCH} field.cattle.io/projectId=c-tfxjq:p-2wgnk
 
   - name: deploy
-    image: danielgormly/drone-plugin-kube:0.1.0
+    image: sinlead/drone-kubectl
     settings:
-      template: kubernetes/deployment.yaml
-      server: https://rancher.deustotech.eu/k8s/clusters/c-tfxjq
-      namespace: reach-tech-doc-${DRONE_SOURCE_BRANCH}
-      token:
-        from_secret: SAC_TOKEN
-      ca:
+      kubernetes_server: https://rancher.deustotech.eu/k8s/clusters/c-tfxjq
+      kubernetes_cert:
         from_secret: PLUGIN_CA
-      build_number: ${DRONE_BUILD_NUMBER}
-      branch: ${DRONE_SOURCE_BRANCH}
+      kubernetes_token:
+        from_secret: SAC_TOKEN
+    commands:
+      - kubectl apply -f kubernetes/deployment-dist.yaml
 
   - name: service
     image: sinlead/drone-kubectl
@@ -67,11 +67,4 @@ steps:
       - kubectl apply -f kubernetes/service-dist.yaml
       - kubectl apply -f kubernetes/ingress-dist.yaml
       - echo "Congratulations! You can access your deployment at https://${DRONE_SOURCE_BRANCH}.docs.reach.apps.deustotech.eu"
-
-  # - name: show-url
-  #   image: alpine
-  #   environment:
-  #     DRONE_SOURCE_BRANCH: ${DRONE_SOURCE_BRANCH}
-  #   commands:
-  #   - echo "Congratulations! You can access your deployment at https://docs-${DRONE_SOURCE_BRANCH}.reach.apps.deustotech.eu"
     

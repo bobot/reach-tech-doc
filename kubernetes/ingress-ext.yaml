@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+  name: docs.reach-incubator.eu
+  namespace: reach-tech-doc-main
+spec:
+  rules:
+  - host: docs.reach-incubator.eu
+    http:
+      paths:
+      - backend:
+          serviceName: tech-doc
+          servicePort: 80
+  tls:
+  - hosts:
+    - docs.reach-incubator.eu
+    secretName: docs-reach-incubator-eu-cert

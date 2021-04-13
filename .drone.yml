@@ -36,8 +36,6 @@ steps:
     image: sinlead/drone-kubectl
     settings:
       kubernetes_server: https://rancher.deustotech.eu/k8s/clusters/c-tfxjq
-      kubernetes_cert:
-        from_secret: PLUGIN_CA
       kubernetes_token:
         from_secret: SAC_TOKEN
     commands:
@@ -48,8 +46,6 @@ steps:
     image: sinlead/drone-kubectl
     settings:
       kubernetes_server: https://rancher.deustotech.eu/k8s/clusters/c-tfxjq
-      kubernetes_cert:
-        from_secret: PLUGIN_CA
       kubernetes_token:
         from_secret: SAC_TOKEN
     commands:
@@ -59,8 +55,6 @@ steps:
     image: sinlead/drone-kubectl
     settings:
       kubernetes_server: https://rancher.deustotech.eu/k8s/clusters/c-tfxjq
-      kubernetes_cert:
-        from_secret: PLUGIN_CA
       kubernetes_token:
         from_secret: SAC_TOKEN
     commands:

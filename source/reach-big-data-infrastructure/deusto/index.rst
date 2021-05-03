@@ -15,7 +15,7 @@ Deusto provides the following computation environment:
 Deusto offers three ways to take advantage of its cluster:
 
     1. Web access to JupyterLab.
-    2. Usage of applications developed by Deusto.
+    2. Usage of applications deployed by Deusto.
     3. DIY and deploy your own Kubernetes deployments.
 
 Next, those different access methods are explained.
@@ -59,3 +59,15 @@ Once authenticated, user could select the desired distribution.
 The following image depicts the main screen of the JupyterLab environment. From here, diferent notebooks can be created, even a web-based CLI for interacting
 with the environment. At the right part, the file browser is displayed. Files created at the JupyterLab environment persist over different runs of the environment,
 however, we recommend to use git to save changes on your developments.
+
+.. image:: img/jupyter_notebook.png
+
+If you want to launch a different JupyterLab distribution you should recreate your instance. To do that, you must click on "File" and next on 
+"Hub Control Panel".
+
+.. image:: img/jupyter_hub_management.png
+
+From here, you can manage your JupyterLab instance. Click on "Stop My Server" to stop your instance. When the instance is stopped (the stop button disappears),
+click on "My Server" to recreate your instance with the selected ditribution.
+
+.. image:: img/jupyter_stop_server.png

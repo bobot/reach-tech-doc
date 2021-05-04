@@ -16,9 +16,12 @@ Deusto offers three ways to take advantage of its cluster:
 
     1. Web access to JupyterLab.
     2. Usage of applications deployed by Deusto.
-    3. DIY and deploy your own Kubernetes deployments.
+    3. Your own Kubernetes deployments.
 
 Next, those different access methods are explained.
+
+
+.. _jupyter-lab:
 
 JupyterLab
 ----------
@@ -72,6 +75,7 @@ click on "My Server" to recreate your instance with the selected ditribution.
 
 .. image:: img/jupyter_stop_server.png
 
+
 Applications deployed by Deusto
 -------------------------------
 
@@ -103,6 +107,67 @@ Next, different applications related to Data Analytics and Machine Learning are 
 * `Grafana <https://artifacthub.io/packages/helm/bitnami/grafana>`_
 * `Kibana <https://artifacthub.io/packages/helm/bitnami/kibana>`_
 
-If you want to use one of those applications or others hosted at ArtifactHub.io <https://artifacthub.io/>`_ or `Docker Hub <https://hub.docker.com/>`_,
+If you want to use one of those applications or others hosted at `ArtifactHub.io <https://artifacthub.io/>`_ or `Docker Hub <https://hub.docker.com/>`_,
 you must open a ticket at `https://support.reach-incubator.eu <https://support.reach-incubator.eu>`_. If you want to deploy an application or
 framework not included at these sources, you could open a ticket requesting our support as well.
+
+
+Your own Kubernetes deployments
+-------------------------------
+
+.. note::
+    If you don't have previous expertise with Kubernetes and you want to learn, you can start from `here <https://kubernetes.io/docs/tutorials/kubernetes-basics/>`_.
+
+If you have worked with Kubernetes in the past or you have some expertise, you can try deploying your own apps and frameworks by yourself. For that,
+you should request your credentials for deploying applications at the cluster at `https://support.reach-incubator.eu <https://support.reach-incubator.eu>`_.
+
+.. note::
+    Notice that the credentials for :ref:`jupyter-lab` and the credentials for deploying applications at the cluster are not the same.
+
+You can access to the Kubernetes web interface (Rancher) at `https://rancher.deustotech.eu/ <https://rancher.deustotech.eu/>`_. Here, you can use
+your credentials for accessing to the cluster.
+
+.. image:: img/rancher_login.png
+
+Next, you must select the cluster you want to work with. In this case, there is a single cluster called "nightingale".
+
+.. image:: img/rancher_select_cluster.png
+
+From here, you can select your project.
+
+.. image:: img/rancher_select_project.png
+
+In this screen you can see your deployed workloads, load balancers, services, volumes and so on. Through the "Resources" menu you can access to
+Secrets and ConfigMaps.
+
+.. image:: img/rancher_empty_project.png
+
+Before deploying anything within your project, you should create a namespace. For that, click on "Namespaces" tab and next, on "Add namespace" button.
+
+.. image:: img/rancher_add_namespace.png
+
+Although the usage of the web interface is helpufl for monitoring resources and as in the beggining the syntax could be confusing, we recommend 
+using the YAML files for describing your Kubernetes resources and the Rancher CLI for deploying them. The usage of YAML configuration files
+allow re-deploying your apps as many times as you want with a single CLI command, and, in addition, in the future you could deploy them in your 
+own Kubernetes cluster.
+
+For starting working with the cluster, you should download the Rancher CLI. For that, you can click on the "Download CLI" dropdown at the bottom-right
+corner of the web interface, and select your OS.
+
+.. image:: img/rancher_download_cli.png
+
+Once the CLI is installed, the first step is to authenticate yourself in the cluster, with the following command:
+
+.. code-block:: bash
+
+    ./rancher login --token BEARER_TOKEN https://rancher.deustotech.eu
+
+You can create your token clicking on your profile at the top-right area of the web interface, and next on "Api & Keys".
+
+.. image:: img/rancher_api_keys.png
+
+From here, you can add a new key clicking on "Add key". It is important to select "no scope" at the "Scope" dropdown.
+
+.. image:: img/rancher_add_api_key.png
+
+

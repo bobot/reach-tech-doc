@@ -185,6 +185,9 @@ First, you should clone the git repository into your computer:
 
     git clone https://github.com/REACH-Incubator/django-polls
 
+PostgreSQL deployment
+.....................
+
 Next, we are going to deploy the PostgreSQL database. As PostgreSQL is an app included into the app catalogue of the cluster, we can install it directly.
 You can check all available apps with the following command:
 
@@ -255,6 +258,9 @@ will be ready:
 
 .. image:: img/rancher_postgres_deployed.png
 
+Django app deployment
+.....................
+
 Once we have the PostgreSQLdatabase deployed, we can deploy the Django app. First, let's check the database settings at ``mysite/settings.py``
 (lines 84-93):
 
@@ -289,8 +295,63 @@ the necessary runtime. This image is specified at the ``Dockerfile`` file:
     WORKDIR /source
     ENTRYPOINT [ "/source/entrypoint.sh" ]
 
+In this file, starting from the ``python:3`` image, we install the libraries required for running our application (i.e. Django and psycopg2) and
+we copy our source code into the ``/source`` folder. Next, we indicate that the container must execute the following bash script on runtime 
+(``/source/entrypoint.sh``):
+
+.. code-block:: bash
+
+    #!/bin/bash
+
+    python manage.py runserver 0.0.0.0:8000
+
+We can compile the image with the following command:
+
+.. code-block:: bash
+
+    docker build -t registry.apps.deustotech.eu/kubernetes-test/mysite:v0.0.1 .
+
+.. warning::
+
+    From here and onwards, don't forget to replace ``kubernetes-test`` with your project name at the private registry (continue reading |:smiley:| ).
+
+Notice that we are tagging our image with the URL of a custom private repository instead the default Docker repository (i.e. `Docker Hub <https://hub.docker.com/>`_).
+Of course, you can use Docker Hub or any repository you want, but at Deusto we offer the possibility of pushing your Docker images at a 
+private repository.
+
+To use our private repository accessible at `https://registry.apps.deustotech.eu <https://registry.apps.deustotech.eu>`_, you should request your
+credentials at the REACH support system (`https://support.reach-incubator.eu <https://support.reach-incubator.eu>`_).
+
+.. note:: 
+
+    Unfortunately, the credentials for the private registry, the cluster and the JupyterLab are not the same.
+
+Before uploading your images, you should create a project at the private registry. For that, access to the registry at 
+`https://registry.apps.deustotech.eu <https://registry.apps.deustotech.eu>`_ with your credentials:
 
 
+.. image:: img/rancher_registry_login.png
+
+Next, you can create a new project clicking on "New Project" button:
+
+.. image:: img/rancher_registry_new_project.png
+
+
+For interacting with the private registry, first you should login with your credentials:
+
+.. code-block:: bash
+
+    $ docker login registry.apps.deustotech.eu
+    Username: <your username>
+    Password: <your password>
+    Login Succeeded
+
+
+Once you have created the project and you have authenticated yourself against the registry, you can push the previously built Docker image:
+
+.. code-block:: bash
+
+    $ docker push registry.apps.deustotech.eu/kubernetes-test/mysite:v0.0.1
 
 Regarding to the Kubernetes deployment files, we could start inspecting the deployment file at `kubernetes/django/deployent.yaml`
 

@@ -398,4 +398,41 @@ Check the status of the app at the Rancher web interface. If something goes wron
 
 .. image:: img/rancher_registry_credentials.png
 
-Once our application is up and running, we need to assign a URL to it.
+Once our application is up and running, we need to assign a URL to it. This is done through an 
+`Ingress <https://kubernetes.io/docs/concepts/services-networking/ingress/>`_.
+You can find an example ingress for our application at ``kubernetes/django/ingress.yaml``.
+
+.. rli:: https://raw.githubusercontent.com/REACH-Incubator/django-polls/master/kubernetes/django/ingress.yaml
+    :language: yaml
+    :linenos:
+
+At lines 9-15 we can define the different rules and hosts that expose our application. In this example, we define a single host
+(``mysite.apps.deustotech.eu``) which points to the service exposed by ``mysite`` at port ``8000``.
+
+.. note::
+
+    Every host defined at Deusto's cluster must be under ``*.apps.deustotech.eu`` domain. You can define multiple level hosts such as
+    ``myapp.myproject.apps.deustotech.eu``. Obviously, Ingress hosts are unique, so when developing this example, you must replace the host
+    name by another one.
+
+If you want to set the SSL certificate for your host, you can invoke the "cert-manager" app, installed at the Deusto's cluster. For that,
+you must declare the ``tls`` section at lines 16-19. Here, we have to enumerate the hosts we want to generate the certificate for and
+a secret name for each of them ("cert-manager" will create those secrets automatically). In addition, you must set the annotation 
+``cert-manager.io/cluster-issuer``. Deusto's cluster offers two TLS issuers:
+
+* ``letsencrypt-staging``: the Let's Encrypt staging issuer. Use this issuer for testing your application and ensuring that everything works.
+* ``letsencrypt``: the Let's Encrypt production issuer. Use this issuer **only** when you are sure that your application works.
+
+.. warning::
+
+    We encourage the usage of ``letsencrypt-staging`` in development stages. The Let's Encrypt production issuer has strong limits described
+    `here <https://letsencrypt.org/docs/rate-limits/>`_ , including a **five Duplicate Certificate limit** for a week. So, please, test your
+    Ingress objects using the ``letsencrypt-staging`` certificate before switching to the production issuer.
+
+You can deploy your Ingress in the same way that other Kubernetes files:
+
+.. code-block:: bash
+
+    $ kubectl apply -f kubernetes/django/ingress.yaml
+
+Next, you can access to your app at https://mysite.apps.deustotech.eu.

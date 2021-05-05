@@ -281,6 +281,9 @@ As we can see, our ``settings.py`` is retrieving the connection parameters from 
 dynamically obtaining those parameters in case we recreate the database and those parameters change, or if we want to move the application to
 a different cluster.
 
+In the same file, we can see that other settings like the ``SECRET_KEY``, the ``ALLOWED_HOSTS`` or the ``DEBUG`` mode flag have been refactorized to
+environment variables.
+
 The first step before deploying our Django app into the cluster, is to create the Docker image. The Docker image should contain our source code and
 the necessary runtime. This image is specified at the ``Dockerfile`` file:
 
@@ -288,7 +291,7 @@ the necessary runtime. This image is specified at the ``Dockerfile`` file:
 
     FROM python:3
 
-    RUN pip install Django==3.2.1 psycopg2==2.5.4
+    RUN pip install Django==3.2.1 psycopg2==2.8.6
 
     ADD . /source
 
@@ -353,6 +356,46 @@ Once you have created the project and you have authenticated yourself against th
 
     $ docker push registry.apps.deustotech.eu/kubernetes-test/mysite:v0.0.1
 
-Regarding to the Kubernetes deployment files, we could start inspecting the deployment file at `kubernetes/django/deployent.yaml`
+Regarding to the Kubernetes deployment files, we will inspect the deployment file at `kubernetes/django/deployment.yaml`:
+
+.. rli:: https://raw.githubusercontent.com/REACH-Incubator/django-polls/master/kubernetes/django/deployment.yaml
+    :language: yaml
+    :linenos:
+
+In this documentation we cover only few aspects of the Deployment, but you can get more information at the
+`Kubernetes documentation <https://kubernetes.io/docs/concepts/workloads/controllers/deployment/>`_.
+
+At lines 13-14, the deployment strategy is defined. The Longhorn file system used in Deusto's cluster does not support node multi-attachment,
+so, **if your Deployment is composed by containers attached to a Persistent Volume, the deployment strategy should be set to Recreate**.
+
+At lines 20-21 the ``imagePullSecrets`` are defined. An imagePullSecret allows the cluster pulling a Docker image from a private registry.
+To create a imagePullSecret, first, access to the private registry at `https://registry.apps.deustotech.eu <https://registry.apps.deustotech.eu>`_
+and select your current project. Next, select the "Robot Accounts" tab and create a new robot account clicking on "New Robot Account".
+
+.. image:: img/rancher_registry_new_project.png
+
+Once you have created the new robot account, copy the generated token and go to your project at the Rancher web interface. Here, click on "Resources",
+"Secrets" and click on "Registry Credentials" tab.
+
+.. image:: img/rancher_registry_credentials.png
+
+Here, click on "Add Registry" to create a new imagePullSecret. In the "Address" section you must select "Custom" and set ``registry.apps.deustotech.eu``.
+In the "Username" field, you must set the name of your robot account (``robot$...``) and in the "Password" field you must paste the previously generated
+token.
+
+At lines 21-67 the different containers forming the deployment are described. In this case, a single container is described (the Django webapp).
+
+For deploying the application, you must submit the following files to the cluster:
+
+.. code-block:: bash
+
+    $ rancher kubectl apply -f kubernetes/django/secret.yaml
+    $ rancher kubectl apply -f kubernetes/django/configmap.yaml
+    $ rancher kubectl apply -f kubernetes/django/deployment.yaml
 
 
+Check the status of the app at the Rancher web interface. If something goes wrong, you can check the container's logs.
+
+.. image:: img/rancher_registry_credentials.png
+
+Once our application is up and running, we need to assign a URL to it.

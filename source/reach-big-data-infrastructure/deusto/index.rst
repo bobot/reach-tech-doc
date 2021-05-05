@@ -170,4 +170,128 @@ From here, you can add a new key clicking on "Add key". It is important to selec
 
 .. image:: img/rancher_add_api_key.png
 
+Once authenticated, you can deploy Kubernetes resources at the cluster using the ``rancher kubectl`` command.
+
+Example Kubernetes deployment
++++++++++++++++++++++++++++++
+
+To illustrate the usage of Rancher and Kubernetes, we will deploy a sample `Django <https://www.djangoproject.com/>`_ app, which can be found at 
+`https://github.com/REACH-Incubator/django-polls <https://github.com/REACH-Incubator/django-polls>`_. This application is composed by a webserver and
+a PostgreSQL database.
+
+First, you should clone the git repository into your computer:
+
+.. code-block:: bash
+
+    git clone https://github.com/REACH-Incubator/django-polls
+
+Next, we are going to deploy the PostgreSQL database. As PostgreSQL is an app included into the app catalogue of the cluster, we can install it directly.
+You can check all available apps with the following command:
+
+.. code-block:: bash
+
+    rancher app list-templates
+
+For this example, we want to install the app template identified as ``c-tfxjq:bitnami-postgresql``. For customizing our deployment, we can use the 
+``values.yaml`` file located at ``kubernetes/postgresql/values.yaml``. We can check the values supported by the app and its documentation at
+`https://artifacthub.io/packages/helm/bitnami/postgresql <https://artifacthub.io/packages/helm/bitnami/postgresql>`_.
+
+.. code-block:: yaml
+
+    persistence:
+      storageClass: longhorn
+      size: 1Gi
+
+In this case, we only have overrided a couple of values, i.e. the `storage class <https://kubernetes.io/docs/concepts/storage/storage-classes/>`_ 
+used by the persistent volume and its size.
+
+.. note::
+
+    There is a single storage class available at this cluster: `longhorn <https://longhorn.io/>`_.
+
+.. warning::
+
+    Remember that containers are **volatile**, i.e. if a `Deployment <https://kubernetes.io/docs/concepts/workloads/controllers/deployment/>`_,
+    a `Pod <https://kubernetes.io/docs/concepts/workloads/pods/>`_, or a `Job <https://kubernetes.io/docs/concepts/workloads/controllers/job/>`_
+    exits, the data will be destroyed unless it is backed by a `Persistent Volume <https://kubernetes.io/docs/concepts/storage/persistent-volumes/>`_.
+
+Once we have our ``values.yaml`` file ready, we can deploy our PostgreSQL instance:
+
+.. code-block:: bash
+
+    $ rancher app install --namespace test-namespace --values kubernetes/postgresql/values.yaml c-tfxjq:bitnami-postgresql postgresql
+    run "app show-notes postgresql" to view app notes once app is ready
+
+If we execute the ``rancher app show-notes postgresql``, we can display the installation notes:
+
+.. code-block:: bash
+
+    $ rancher app show-notes postgresql
+    NOTES:
+    ** Please be patient while the chart is being deployed **
+
+    PostgreSQL can be accessed via port 5432 on the following DNS name from within your cluster:
+
+        postgresql.test-namespace.svc.cluster.local - Read/Write connection
+
+    To get the password for "postgres" run:
+
+        export POSTGRES_PASSWORD=$(kubectl get secret --namespace test-namespace postgresql -o jsonpath="{.data.postgresql-password}" | base64 --decode)
+
+    To connect to your database run the following command:
+
+        kubectl run postgresql-client --rm --tty -i --restart='Never' --namespace test-namespace --image docker.io/bitnami/postgresql:11.11.0-debian-10-r84 --env="PGPASSWORD=$POSTGRES_PASSWORD" --command -- psql --host postgresql -U postgres -d postgres -p 5432
+
+
+
+    To connect to your database from outside the cluster execute the following commands:
+
+        kubectl port-forward --namespace test-namespace svc/postgresql 5432:5432 &
+        PGPASSWORD="$POSTGRES_PASSWORD" psql --host 127.0.0.1 -U postgres -d postgres -p 5432
+
+
+We can check the status of the deployment of our app at the web interface. Few minutes after the execution of the installation command, our app
+will be ready:
+
+.. image:: img/rancher_postgres_deployed.png
+
+Once we have the PostgreSQLdatabase deployed, we can deploy the Django app. First, let's check the database settings at ``mysite/settings.py``
+(lines 84-93):
+
+.. code-block:: python
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get('POSTGRES_DB'),
+            'USER': os.environ.get('POSTGRES_USER'),
+            'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+            'HOST': os.environ.get('POSTGRES_HOST'),
+            'PORT': os.environ.get('POSTGRES_PORT'),
+        }
+    }
+
+As we can see, our ``settings.py`` is retrieving the connection parameters from the environment variables set at the container. This allows 
+dynamically obtaining those parameters in case we recreate the database and those parameters change, or if we want to move the application to
+a different cluster.
+
+The first step before deploying our Django app into the cluster, is to create the Docker image. The Docker image should contain our source code and
+the necessary runtime. This image is specified at the ``Dockerfile`` file:
+
+.. code-block:: docker
+
+    FROM python:3
+
+    RUN pip install Django==3.2.1 psycopg2==2.5.4
+
+    ADD . /source
+
+    WORKDIR /source
+    ENTRYPOINT [ "/source/entrypoint.sh" ]
+
+
+
+
+Regarding to the Kubernetes deployment files, we could start inspecting the deployment file at `kubernetes/django/deployent.yaml`
+
 

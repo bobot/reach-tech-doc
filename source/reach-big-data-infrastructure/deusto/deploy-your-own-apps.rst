@@ -342,3 +342,56 @@ You can deploy your Ingress in the same way that other Kubernetes files:
     $ kubectl apply -f kubernetes/django/ingress.yaml
 
 Next, you can access to your app at https://mysite.apps.deustotech.eu.
+
+Deploying jobs
+++++++++++++++
+
+In addition to long-running applications, Kubernetes allows deploying `Jobs <https://kubernetes.io/docs/concepts/workloads/controllers/job/>`_.
+A Job, opposite to a Deployment which is expected to be running 24/7, has a beggining and an end. We can use Jobs for launching 
+Machine Learning or Data Analytics, storing results in a persistent volume. 
+
+In the following example, how to launch a Job for executing the Tensorflow MNIST Fashion dataset example is explained. You can find the example
+at ``https://github.com/REACH-Incubator/kubernetes-job-example``. In this example, we propose a Job to make the predictions for our dataset, save 
+those predictions on `MinIO <https://min.io/>`_, and visualize at JupyterLab.
+
+
+MinIO deployment
+================
+
+MinIO is a Kubernetes-native object storage compatible with AWS S3. It can be described as a self-hosted AWS S3. In this example, we use MinIO to
+store the results of our Job, and access them from JupyterLab.
+
+The deployment of MinIO is similar to the PostgreSQL deployment explained at the previous example. Configuration parameters must be defined at 
+the ``values.yaml`` file:
+
+.. code-block:: yaml
+
+    statefulset:
+      replicaCount: 1
+    persistence:
+      storageClass: longhorn
+      size: 10Gi
+    defaultBuckets: "default"
+
+You can get more information about the MinIO configuration parameters at https://artifacthub.io/packages/helm/bitnami/minio.
+
+We can deploy MinIO with the following command:
+
+.. code-block:: bash
+
+    $ rancher app install --namespace job-example --values values.yaml c-tfxjq:bitnami-minio minio
+
+Once MiniIO is deployed, we can launch our Job.
+
+Launching the training Job
+==========================
+
+First, we have to build and push the Docker image into the repository. The Docker image is specified at the ``Dockerfile``:
+
+.. code-block:: docker
+
+    FROM tensorflow/tensorflow:2.4.1
+
+    RUN pip install boto3
+    RUN mkdir /source
+    ADD mnist_example.py /source

@@ -120,6 +120,11 @@ used by the persistent volume and its size.
 
     There is a single storage class available at this cluster: `longhorn <https://longhorn.io/>`_.
 
+-- note::
+
+    Notice that the storage unit is the `Gibibyte (Gi) <https://en.wikipedia.org/wiki/Byte#Multiple-byte_units>`_. The minimum size of a 
+    Longhorn volume is 1Gi.
+
 .. warning::
 
     Remember that containers are **volatile**, i.e. if a `Deployment <https://kubernetes.io/docs/concepts/workloads/controllers/deployment/>`_,
@@ -356,7 +361,7 @@ those predictions on `MinIO <https://min.io/>`_, and visualize at JupyterLab.
 
 
 MinIO deployment
-================
+................
 
 MinIO is a Kubernetes-native object storage compatible with AWS S3. It can be described as a self-hosted AWS S3. In this example, we use MinIO to
 store the results of our Job, and access them from JupyterLab.
@@ -384,7 +389,7 @@ We can deploy MinIO with the following command:
 Once MiniIO is deployed, we can launch our Job.
 
 Launching the training Job
-==========================
+..........................
 
 First, we have to build and push the Docker image into the repository. The Docker image is specified at the ``Dockerfile``:
 

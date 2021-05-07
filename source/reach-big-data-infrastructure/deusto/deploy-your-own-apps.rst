@@ -10,6 +10,13 @@ you should request your credentials for deploying applications at the cluster at
 .. note::
     Notice that the credentials for :ref:`jupyter-lab` and the credentials for deploying applications at the cluster are not the same.
 
+Here you can find the basics for interacting with the Kubernetes cluster provided by Deusto:
+
+.. contents::
+    :depth: 3
+    :local:
+
+
 Rancher web interface
 +++++++++++++++++++++
 

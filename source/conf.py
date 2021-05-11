@@ -29,6 +29,8 @@ author = 'REACH Consortium'
 # ones.
 extensions = [
     "sphinx_rtd_theme",
+    "sphinxemoji.sphinxemoji",
+    "sphinxext.remoteliteralinclude",
 ]
 
 # Add any paths that contain templates here, relative to this directory.

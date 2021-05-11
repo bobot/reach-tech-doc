@@ -7,7 +7,7 @@ steps:
   - name: compile
     image: python:3
     commands:
-    - pip install -U sphinx sphinx-rtd-theme
+    - pip install -U sphinx sphinx-rtd-theme sphinxemoji sphinxext-remoteliteralinclude
     - make html
 
   - name: build

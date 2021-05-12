@@ -353,7 +353,7 @@ Deploying jobs
 
 In addition to long-running applications, Kubernetes allows deploying `Jobs <https://kubernetes.io/docs/concepts/workloads/controllers/job/>`_.
 A Job, opposite to a Deployment which is expected to be running 24/7, has a beggining and an end. We can use Jobs for launching 
-Machine Learning or Data Analytics, storing results in a persistent volume. 
+Machine Learning or Data Analytics tasks, storing results in a persistent volume. 
 
 In the following example, how to launch a Job for executing the Tensorflow MNIST Fashion dataset example is explained. You can find the example
 at ``https://github.com/REACH-Incubator/kubernetes-job-example``. In this example, we propose a Job to make the predictions for our dataset, save 
@@ -386,7 +386,7 @@ We can deploy MinIO with the following command:
 
     $ rancher app install --namespace job-example --values values.yaml c-tfxjq:bitnami-minio minio
 
-Once MiniIO is deployed, we can launch our Job.
+Once MinIO is deployed, we can launch our Job.
 
 Launching the training Job
 ..........................
@@ -400,3 +400,274 @@ First, we have to build and push the Docker image into the repository. The Docke
     RUN pip install boto3
     RUN mkdir /source
     ADD mnist_example.py /source
+
+As can be seen, in this ``Dockerfile``, from the ``tensorflow`` image, the required libraries are installed and our source code
+is included into the image. The ``boto3`` library is the one which allows interacting with S3 compatible endpoints.
+
+The Docker image can be built in the same way as the previous example:
+
+.. code-block:: bash
+
+    $ docker build -t registry.apps.deustotech.eu/kubernetes-test/job-example:v0.3 .
+    $ docker push registry.apps.deustotech.eu/kubernetes-test/job-example:v0.3
+
+Next, let's analyze the source code at ``mnist_example.py``:
+
+.. code-block:: python
+  :linenos:
+
+    import os
+
+    # TensorFlow and tf.keras
+    import tensorflow as tf
+
+    # Helper libraries
+    import numpy as np
+
+    # Boto3 S3 library
+    import boto3
+
+    fashion_mnist = tf.keras.datasets.fashion_mnist
+
+    (train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
+
+    class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
+                'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
+
+    train_images = train_images / 255.0
+
+    test_images = test_images / 255.0
+
+    model = tf.keras.Sequential([
+        tf.keras.layers.Flatten(input_shape=(28, 28)),
+        tf.keras.layers.Dense(128, activation='relu'),
+        tf.keras.layers.Dense(10)
+    ])
+
+    model.compile(optimizer='adam',
+                loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+                metrics=['accuracy'])
+
+    model.fit(train_images, train_labels, epochs=10)
+
+    test_loss, test_acc = model.evaluate(test_images,  test_labels, verbose=2)
+
+    print('\nTest accuracy:', test_acc)
+
+    probability_model = tf.keras.Sequential([model, 
+                                            tf.keras.layers.Softmax()])
+
+    predictions = probability_model.predict(test_images)
+
+    np.save('/tmp/predictions.npy', predictions)
+
+    # Upload result to Minio
+    s3 = boto3.resource('s3', 
+                        endpoint_url=os.environ.get('MINIO_ENDPOINT'), 
+                        aws_access_key_id=os.environ.get('MINIO_ACCESS_KEY_ID'),
+                        aws_secret_access_key=os.environ.get('MINIO_SECRET_ACCESS_KEY'))
+
+    data = open('/tmp/predictions.npy', 'rb')
+    s3.Bucket('default').put_object(Key='predictions.npy', Body=data)
+
+From line 1 to line 42, the steps for training the model and making the predictions are performed. Notice that at line 44 the predictions are saved
+into a file (``/tmp/predictions.npy``), and aferwards, this file is uploaded into a bucket at MinIO (lines 47 to 53).
+
+The Job is specifed at the ``job.yaml`` file:
+
+.. rli:: https://raw.githubusercontent.com/REACH-Incubator/kubernetes-job-example/main/job.yaml
+    :language: yaml
+    :linenos:
+
+This file is similar to the Deployment file used in the previous example. There are two attributes that are important when executing a Job. The
+first one is the ``command`` attribute, which specifies the command to be launched at the container executing the Job. The second one is
+the ``backoffLimit`` attribute, which specifies the number of retries in case of failure of the Job.
+
+As can be seen from line 15 to line 30, different parameters for connecting to MinIO are set from the corresponding Secrets.
+
+We can launch the Job with the ``rancher kubectl apply -f`` command, as usual:
+
+.. code-block:: bash
+
+    $ rancher kubectl apply -f job.yaml
+
+Next, we can check the progress of the Job inspecting its logs. 
+
+.. code-block:: bash
+
+    $ kubectl --namespace job-example logs -f job.batch/mnist-example
+    2021-05-12 12:52:47.000982: W tensorflow/stream_executor/platform/default/dso_loader.cc:60] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory
+    2021-05-12 12:52:47.001042: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+    Downloading data from https://storage.googleapis.com/tensorflow/tf-keras-datasets/train-labels-idx1-ubyte.gz
+    32768/29515 [=================================] - 0s 0us/step
+    Downloading data from https://storage.googleapis.com/tensorflow/tf-keras-datasets/train-images-idx3-ubyte.gz
+    26427392/26421880 [==============================] - 0s 0us/step
+    Downloading data from https://storage.googleapis.com/tensorflow/tf-keras-datasets/t10k-labels-idx1-ubyte.gz
+    8192/5148 [===============================================] - 0s 0us/step
+    Downloading data from https://storage.googleapis.com/tensorflow/tf-keras-datasets/t10k-images-idx3-ubyte.gz
+    4423680/4422102 [==============================] - 0s 0us/step
+    2021-05-12 12:54:01.067191: I tensorflow/compiler/jit/xla_cpu_device.cc:41] Not creating XLA devices, tf_xla_enable_xla_devices not set
+    2021-05-12 12:54:01.070131: W tensorflow/stream_executor/platform/default/dso_loader.cc:60] Could not load dynamic library 'libcuda.so.1'; dlerror: libcuda.so.1: cannot open shared object file: No such file or directory
+    2021-05-12 12:54:01.070172: W tensorflow/stream_executor/cuda/cuda_driver.cc:326] failed call to cuInit: UNKNOWN ERROR (303)
+    2021-05-12 12:54:01.070232: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:156] kernel driver does not appear to be running on this host (mnist-example-dq42h): /proc/driver/nvidia/version does not exist
+    2021-05-12 12:54:01.071135: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+    To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+    2021-05-12 12:54:01.071664: I tensorflow/compiler/jit/xla_gpu_device.cc:99] Not creating XLA devices, tf_xla_enable_xla_devices not set
+    2021-05-12 12:54:37.913686: W tensorflow/core/framework/cpu_allocator_impl.cc:80] Allocation of 188160000 exceeds 10% of free system memory.
+    2021-05-12 12:54:38.301944: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:116] None of the MLIR optimization passes are enabled (registered 2)
+    2021-05-12 12:54:38.312077: I tensorflow/core/platform/profile_utils/cpu_utils.cc:112] CPU Frequency: 2199995000 Hz
+    Epoch 1/10
+    1875/1875 [==============================] - 5s 3ms/step - loss: 0.6365 - accuracy: 0.7816
+    Epoch 2/10
+    1875/1875 [==============================] - 4s 2ms/step - loss: 0.3803 - accuracy: 0.8609
+    Epoch 3/10
+    1875/1875 [==============================] - 4s 2ms/step - loss: 0.3390 - accuracy: 0.8765
+    Epoch 4/10
+    1875/1875 [==============================] - 4s 2ms/step - loss: 0.3048 - accuracy: 0.8880
+    Epoch 5/10
+    1875/1875 [==============================] - 4s 2ms/step - loss: 0.2868 - accuracy: 0.8932
+    Epoch 6/10
+    1875/1875 [==============================] - 4s 2ms/step - loss: 0.2794 - accuracy: 0.8961
+    Epoch 7/10
+    1875/1875 [==============================] - 4s 2ms/step - loss: 0.2604 - accuracy: 0.9029
+    Epoch 8/10
+    1875/1875 [==============================] - 5s 3ms/step - loss: 0.2556 - accuracy: 0.9053
+    Epoch 9/10
+    1875/1875 [==============================] - 4s 2ms/step - loss: 0.2452 - accuracy: 0.9083
+    Epoch 10/10
+    1875/1875 [==============================] - 5s 2ms/step - loss: 0.2381 - accuracy: 0.9109
+    313/313 - 1s - loss: 0.3408 - accuracy: 0.8828
+
+    Test accuracy: 0.8827999830245972
+
+When the job is finnished, we can access to our JupyterLab instance at https://jupyter.reach.apps.deustotech.eu, for inspecting the results. At
+``visualize_results.py`` file, we can find the code executed at our Jupyter Notebook:
+
+.. code-block:: python
+  :linenos:
+
+    #!/usr/bin/env python
+    # coding: utf-8
+
+    # In[13]:
+
+
+    import tensorflow as tf
+    import matplotlib.pyplot as plt
+    import numpy as np
+    import boto3
+
+
+    # In[14]:
+
+
+    fashion_mnist = tf.keras.datasets.fashion_mnist
+
+    (train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
+
+
+    # In[19]:
+
+
+    class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
+                'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
+
+
+    # In[15]:
+
+
+    s3 = boto3.resource('s3', 
+                        endpoint_url= 'http://minio.job-example.svc.cluster.local:9000', 
+                        aws_access_key_id='<MinIO Access Key>',
+                        aws_secret_access_key='<MinIO Secret Access Key>')
+    s3.Bucket('default').download_file('predictions.npy', '/tmp/predictions.npy')
+
+
+    # In[16]:
+
+
+    predictions = np.load('/tmp/predictions.npy')
+
+
+    # In[17]:
+
+
+    def plot_image(i, predictions_array, true_label, img):
+    true_label, img = true_label[i], img[i]
+    plt.grid(False)
+    plt.xticks([])
+    plt.yticks([])
+
+    plt.imshow(img, cmap=plt.cm.binary)
+
+    predicted_label = np.argmax(predictions_array)
+    if predicted_label == true_label:
+        color = 'blue'
+    else:
+        color = 'red'
+
+    plt.xlabel("{} {:2.0f}% ({})".format(class_names[predicted_label],
+                                    100*np.max(predictions_array),
+                                    class_names[true_label]),
+                                    color=color)
+
+    def plot_value_array(i, predictions_array, true_label):
+    true_label = true_label[i]
+    plt.grid(False)
+    plt.xticks(range(10))
+    plt.yticks([])
+    thisplot = plt.bar(range(10), predictions_array, color="#777777")
+    plt.ylim([0, 1])
+    predicted_label = np.argmax(predictions_array)
+
+    thisplot[predicted_label].set_color('red')
+    thisplot[true_label].set_color('blue')
+
+
+    # # Result exploration
+
+    # In[20]:
+
+
+    i = 0
+    plt.figure(figsize=(6,3))
+    plt.subplot(1,2,1)
+    plot_image(i, predictions[i], test_labels, test_images)
+    plt.subplot(1,2,2)
+    plot_value_array(i, predictions[i],  test_labels)
+    plt.show()
+
+
+    # In[21]:
+
+
+    i = 12
+    plt.figure(figsize=(6,3))
+    plt.subplot(1,2,1)
+    plot_image(i, predictions[i], test_labels, test_images)
+    plt.subplot(1,2,2)
+    plot_value_array(i, predictions[i],  test_labels)
+    plt.show()
+
+
+    # In[22]:
+
+
+    # Plot the first X test images, their predicted labels, and the true labels.
+    # Color correct predictions in blue and incorrect predictions in red.
+    num_rows = 5
+    num_cols = 3
+    num_images = num_rows*num_cols
+    plt.figure(figsize=(2*2*num_cols, 2*num_rows))
+    for i in range(num_images):
+    plt.subplot(num_rows, 2*num_cols, 2*i+1)
+    plot_image(i, predictions[i], test_labels, test_images)
+    plt.subplot(num_rows, 2*num_cols, 2*i+2)
+    plot_value_array(i, predictions[i], test_labels)
+    plt.tight_layout()
+    plt.show()
+
+
+As can be seen, at lines 31-41, the previously generated predictions are loaded. From that point, we can explore those predictions from JupyterLab.
+
+.. image:: img/jupyterlab_exploration.png

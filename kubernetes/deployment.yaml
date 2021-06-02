@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: tech-doc
-  namespace: reach-tech-doc-${ENV_DRONE_SOURCE_BRANCH}
+  namespace: reach-tech-doc-${ENV_NAMESPACE_NAME}
   labels:
     app: tech-doc
 spec:

@@ -17,7 +17,7 @@ There are two different ways to add new content to the documentation:
 
 In both ways, you **must create a new branch** for adding your contributions. Pushing contents directly into the `main` branch is disabled.
 
-Every time a new branch is pushed into the repository, a new deployment is created at `https://<your-branch-name>.docs.reach.apps.deustotech.eu`.
+Every time a new branch is pushed into the repository, a new deployment is created at `http://<your-branch-name>.docs.reach.apps.deustotech.eu`.
 
 The source files of the documentation are located at the `source` folder at the repository root.
 
@@ -67,7 +67,7 @@ $ git push origin my-branch
 
 ## Checking your build
 
-Every time a branch is pushed into the repository, a new deployment is created at `https://<your-branch-name>.docs.reach.apps.deustotech.eu`. You can check how your build is going at the `Commits` section.
+Every time a branch is pushed into the repository, a new deployment is created at `http://<your-branch-name>.docs.reach.apps.deustotech.eu`. You can check how your build is going at the `Commits` section.
 
 ![Accessing to your commits](https://i.imgur.com/mubbeJQ.png)
 
@@ -99,7 +99,7 @@ Next, the status checks are executed. You cannot merge your PR until those check
 
 ![Status check](https://i.imgur.com/3PllwmD.png)
 
-If the status checks finished successfully, you can merge your PR clicking on `Merge pull request`. Once the PR is merged, your deployment is destroyed, so the URL `https://<your-branch-name>.docs.reach.apps.deustotech.eu` is not available anymore. If you push new commits into the same branch, the deployment is created again.
+If the status checks finished successfully, you can merge your PR clicking on `Merge pull request`. Once the PR is merged, your deployment is destroyed, so the URL `http://<your-branch-name>.docs.reach.apps.deustotech.eu` is not available anymore. If you push new commits into the same branch, the deployment is created again.
 
 ![Merged PR](https://i.imgur.com/4KiPB4g.png)
 

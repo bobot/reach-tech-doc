@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt
+    cert-manager.io/cluster-issuer: letsencrypt-staging
   name: docs.reach.apps.deustotech.eu
   namespace: reach-tech-doc-${ENV_NAMESPACE_NAME}
 spec:

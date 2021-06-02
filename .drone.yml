@@ -23,6 +23,7 @@ steps:
   - name: variable-replacement
     image: alpine
     commands:
+    - export ENV_NAMESPACE_NAME=$(echo $DRONE_SOURCE_BRANCH | sed 's/[\/.]/-/g')
     - apk add gettext
     - cat kubernetes/service.yaml | envsubst > kubernetes/service-dist.yaml
     - cat kubernetes/ingress.yaml | envsubst > kubernetes/ingress-dist.yaml
@@ -30,7 +31,6 @@ steps:
     - cat kubernetes/deployment.yaml | envsubst > kubernetes/deployment-dist.yaml
     environment:
       ENV_DRONE_SOURCE_BRANCH: ${DRONE_SOURCE_BRANCH//\//-}
-      ENV_NAMESPACE_NAME: ${DRONE_SOURCE_BRANCH//[\/.]/-}
       ENV_DRONE_BUILD_NUMBER: ${DRONE_BUILD_NUMBER}
 
   - name: create-namespace
@@ -40,8 +40,10 @@ steps:
       kubernetes_token:
         from_secret: SAC_TOKEN
     commands:
+      - export ENV_NAMESPACE_NAME=$(echo $DRONE_SOURCE_BRANCH | sed 's/[\/.]/-/g')
+      - echo $ENV_NAMESPACE_NAME
       - kubectl apply -f kubernetes/namespace-dist.yaml
-      - kubectl annotate namespace --overwrite=true reach-tech-doc-${DRONE_SOURCE_BRANCH//\//-} field.cattle.io/projectId=c-tfxjq:p-2wgnk
+      - kubectl annotate namespace --overwrite=true reach-tech-doc-$ENV_NAMESPACE_NAME field.cattle.io/projectId=c-tfxjq:p-2wgnk
 
   - name: deploy
     image: sinlead/drone-kubectl
@@ -59,7 +61,8 @@ steps:
       kubernetes_token:
         from_secret: SAC_TOKEN
     commands:
+      - export ENV_NAMESPACE_NAME=$(echo $DRONE_SOURCE_BRANCH | sed 's/[\/.]/-/g')
       - kubectl apply -f kubernetes/service-dist.yaml
       - kubectl apply -f kubernetes/ingress-dist.yaml
-      - echo "Congratulations! You can access your deployment at https://${DRONE_SOURCE_BRANCH//\//-}.docs.reach.apps.deustotech.eu"
+      - echo "Congratulations! You can access your deployment at https://${ENV_NAMESPACE_NAME}.docs.reach.apps.deustotech.eu"
     

@@ -30,6 +30,7 @@ steps:
     - cat kubernetes/deployment.yaml | envsubst > kubernetes/deployment-dist.yaml
     environment:
       ENV_DRONE_SOURCE_BRANCH: ${DRONE_SOURCE_BRANCH//\//-}
+      ENV_NAMESPACE_NAME: ${DRONE_SOURCE_BRANCH//[\/.]/-}
       ENV_DRONE_BUILD_NUMBER: ${DRONE_BUILD_NUMBER}
 
   - name: create-namespace

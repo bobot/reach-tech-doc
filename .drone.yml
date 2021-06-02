@@ -41,6 +41,7 @@ steps:
         from_secret: SAC_TOKEN
     commands:
       - export ENV_NAMESPACE_NAME=$(echo $DRONE_SOURCE_BRANCH | sed 's/[\/.]/-/g')
+      - echo $ENV_NAMESPACE_NAME
       - kubectl apply -f kubernetes/namespace-dist.yaml
       - kubectl annotate namespace --overwrite=true reach-tech-doc-${ENV_NAMESPACE_NAME} field.cattle.io/projectId=c-tfxjq:p-2wgnk
 

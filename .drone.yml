@@ -18,7 +18,7 @@ steps:
         from_secret: REGISTRY_PASSWORD
       repo: registry.apps.deustotech.eu/reach/reach-tech-doc
       registry: registry.apps.deustotech.eu
-      tags: ${DRONE_SOURCE_BRANCH/\//_}-${DRONE_BUILD_NUMBER}
+      tags: ${DRONE_SOURCE_BRANCH//\//_}-${DRONE_BUILD_NUMBER}
 
   - name: variable-replacement
     image: alpine
@@ -29,7 +29,7 @@ steps:
     - cat kubernetes/namespace.yaml | envsubst > kubernetes/namespace-dist.yaml
     - cat kubernetes/deployment.yaml | envsubst > kubernetes/deployment-dist.yaml
     environment:
-      DRONE_SOURCE_BRANCH: ${DRONE_SOURCE_BRANCH/\//_}
+      DRONE_SOURCE_BRANCH: ${DRONE_SOURCE_BRANCH//\//_}
       DRONE_BUILD_NUMBER: ${DRONE_BUILD_NUMBER}
 
   - name: create-namespace
@@ -40,7 +40,7 @@ steps:
         from_secret: SAC_TOKEN
     commands:
       - kubectl apply -f kubernetes/namespace-dist.yaml
-      - kubectl annotate namespace --overwrite=true reach-tech-doc-${DRONE_SOURCE_BRANCH/\//_} field.cattle.io/projectId=c-tfxjq:p-2wgnk
+      - kubectl annotate namespace --overwrite=true reach-tech-doc-${DRONE_SOURCE_BRANCH//\//_} field.cattle.io/projectId=c-tfxjq:p-2wgnk
 
   - name: deploy
     image: sinlead/drone-kubectl
@@ -60,5 +60,5 @@ steps:
     commands:
       - kubectl apply -f kubernetes/service-dist.yaml
       - kubectl apply -f kubernetes/ingress-dist.yaml
-      - echo "Congratulations! You can access your deployment at https://${DRONE_SOURCE_BRANCH/\//_}.docs.reach.apps.deustotech.eu"
+      - echo "Congratulations! You can access your deployment at https://${DRONE_SOURCE_BRANCH//\//_}.docs.reach.apps.deustotech.eu"
     

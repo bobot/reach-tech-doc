@@ -29,8 +29,8 @@ steps:
     - cat kubernetes/namespace.yaml | envsubst > kubernetes/namespace-dist.yaml
     - cat kubernetes/deployment.yaml | envsubst > kubernetes/deployment-dist.yaml
     environment:
-      DRONE_SOURCE_BRANCH: ${DRONE_SOURCE_BRANCH//\//_}
-      DRONE_BUILD_NUMBER: ${DRONE_BUILD_NUMBER}
+      ENV_DRONE_SOURCE_BRANCH: ${DRONE_SOURCE_BRANCH//\//_}
+      ENV_DRONE_BUILD_NUMBER: ${DRONE_BUILD_NUMBER}
 
   - name: create-namespace
     image: sinlead/drone-kubectl

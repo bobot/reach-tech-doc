@@ -4,10 +4,10 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
   name: docs.reach.apps.deustotech.eu
-  namespace: reach-tech-doc-${DRONE_SOURCE_BRANCH}
+  namespace: reach-tech-doc-${ENV_DRONE_SOURCE_BRANCH}
 spec:
   rules:
-  - host: ${DRONE_SOURCE_BRANCH}.docs.reach.apps.deustotech.eu
+  - host: ${ENV_DRONE_SOURCE_BRANCH}.docs.reach.apps.deustotech.eu
     http:
       paths:
       - backend:
@@ -15,5 +15,5 @@ spec:
           servicePort: 80
   tls:
   - hosts:
-    - ${DRONE_SOURCE_BRANCH}.docs.reach.apps.deustotech.eu
-    secretName: docs-${DRONE_SOURCE_BRANCH}-reach-cert
+    - ${ENV_DRONE_SOURCE_BRANCH}.docs.reach.apps.deustotech.eu
+    secretName: docs-${ENV_DRONE_SOURCE_BRANCH}-reach-cert

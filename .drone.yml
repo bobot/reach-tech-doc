@@ -64,5 +64,4 @@ steps:
       - export ENV_NAMESPACE_NAME=$(echo $DRONE_SOURCE_BRANCH | sed 's/[\/.]/-/g')
       - kubectl apply -f kubernetes/service-dist.yaml
       - kubectl apply -f kubernetes/ingress-dist.yaml
-      - echo "Congratulations! You can access your deployment at https://$ENV_NAMESPACE_NAME.docs.reach.apps.deustotech.eu"
-    
+      - echo "Congratulations! You can access your deployment at http://${ENV_NAMESPACE_NAME}.docs.reach.apps.deustotech.eu"    

@@ -12,7 +12,9 @@ jobs:
      steps:
       - name: Extract branch name
         shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_HEAD_REF#refs/heads/})"
+        run: |
+          export DRONE_SOURCE_BRANCH=${GITHUB_HEAD_REF#refs/heads/}
+          echo "##[set-output name=branch;]$(echo $DRONE_SOURCE_BRANCH | sed 's/[\/.]/-/g')"
         id: extract_branch
 
       - uses: danielr1996/kubectl-action@1.0.0

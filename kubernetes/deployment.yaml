@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: tech-doc
-  namespace: reach-tech-doc-${DRONE_SOURCE_BRANCH}
+  namespace: reach-tech-doc-${ENV_DRONE_SOURCE_BRANCH}
   labels:
     app: tech-doc
 spec:
@@ -21,4 +21,4 @@ spec:
         - name: robot
       containers:
         - name: tech-doc
-          image: registry.apps.deustotech.eu/reach/reach-tech-doc:${DRONE_SOURCE_BRANCH}-${DRONE_BUILD_NUMBER}
+          image: registry.apps.deustotech.eu/reach/reach-tech-doc:${ENV_DRONE_SOURCE_BRANCH}-${ENV_DRONE_BUILD_NUMBER}

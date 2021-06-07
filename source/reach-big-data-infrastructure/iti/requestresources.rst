@@ -8,7 +8,7 @@ Request Jupyter/Spark Service
 =============================
 
 Once you have entered `Datahub <https://datahub.iti.upv.es/>`_  Platform, the workspace will show up on the screen. 
-On the righ-hand side of the screen you will see the folllwing options:
+On the left-hand side of the screen you will see the folllwing options:
 
 * Project Requests
 * Datasets

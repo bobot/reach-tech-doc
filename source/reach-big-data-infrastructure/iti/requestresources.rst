@@ -5,7 +5,7 @@ Create a request for Resources/Services
     You must be logged first to create a request. `Login Datahub <https://intranet.datahub.iti.es/#/login>`_.
 
 Request Jupyter/Spark Service
-=============================
+-----------------------------
 
 Once you have entered `Datahub <https://datahub.iti.upv.es/>`_  Platform, the workspace will show up on the screen. 
 On the left-hand side of the screen you will see the folllwing options:

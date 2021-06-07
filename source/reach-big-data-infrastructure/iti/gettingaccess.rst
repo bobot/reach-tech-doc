@@ -15,11 +15,11 @@ You will be redirected to the main page of the  `Datahub <https://datahub.iti.up
 
 .. image:: img/datahub1.png
  
-In order to make use of `Datahub <https://datahub.iti.upv.es/>`_ infrastructure, the user will need to create an account at ITI DataHub, by filling the sign-up form. 
+In order to make use of `Datahub <https://datahub.iti.upv.es/>`_ infrastructure, the user will need to create an account at ITI DataHub by filling the sign-up form. 
 
 .. note::
     Note than only users already registered in the REACH system will be granted access to this platform.
-     ITI Support team may already have created an account for you (Redmine ticket). In this case, you will be redirected directly to the login page. `Login Datahub <https://intranet.datahub.iti.es/#/login>`_.
+     ITI Support team may have already created an account for you (Redmine ticket). In this case, you will be redirected directly to the login page. `Login Datahub <https://intranet.datahub.iti.es/#/login>`_.
 
 .. image:: img/datahub2.png
 

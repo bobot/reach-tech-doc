@@ -14,7 +14,7 @@ jobs:
         shell: bash
         run: |
           export DRONE_SOURCE_BRANCH=${GITHUB_HEAD_REF#refs/heads/}
-          echo "##[set-output name=branch;]$(echo $DRONE_SOURCE_BRANCH | sed 's/[\/.]/-/g')"
+          echo "##[set-output name=branch;]$(echo $DRONE_SOURCE_BRANCH | sed 's/[\/._]/-/g')"
         id: extract_branch
 
       - uses: danielr1996/kubectl-action@1.0.0

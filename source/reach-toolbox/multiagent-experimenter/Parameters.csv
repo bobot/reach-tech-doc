@@ -1,0 +1,19 @@
+Parameter;Description
+Core properties;
+MAX_CORE_EXPERIMENTER_NAME;Defines the name of the experimentation class.
+MAX_CORE_EXPORT_PNG;Activate / Deactivate the export of results in .png
+MAX_CORE_SIMULATION_STEP;Defines the simulation step.
+MAX_CORE_UI_MODE;Defines the display mode (GUI / SERVER).
+Network Properties;
+MAX_MODEL_NETWORK_DELAY;Defines the delay for receiving a message.
+MAX_MODEL_NETWORK_RELIABILITY;Defines the reliability of receiving a message (0-100).
+MAX_MODEL_NETWORK_NEIGHBOUR_DISCOVERY_FREQUENCY;Defines how often neighbors are discovered.
+MAX_CORE_MAX_OUTBOUND_CONNECTIONS;Defines the number of outgoing connections of an agent.
+MAX_CORE_MAX_INBOUND_CONNECTIONS;Defines the number of incoming connections from an agent.
+Blockchain Properties;
+MAX_MODEL_LEDGER_FEE;Defines the default cost of a transaction.
+MAX_MODEL_LEDGER_MAX_NUMBER_TXS;Defines the maximum number of transactions in a block.
+MAX_MODEL_LEDGER_REWARD;Defines the reward for minors by block.
+Time-out properties;
+MAX_CORE_TIMEOUT_TICK;Defines the simulation time-out as a function of time.
+MAX_MODEL_LEDGER_BLOCKCHAIN_TIMEOUT_BLOCK;Defines the simulation time-out according to the number of blocks.

@@ -23,3 +23,15 @@ The figure below shows the modular architecture of MAX. The bottom two layers sh
 .. image:: img/maxArchitecture.png
 
 The modular architecture of MAX makes it possible to substitute one or several modules, to simulate different configurations and implementation decisions.
+
+.. toctree::
+   :maxdepth: 1
+
+   usecase
+   how_it_works
+   execute_MAX_model
+   develop_MAX_model
+   how_to_get_access
+   faq
+   
+   

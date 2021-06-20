@@ -29,8 +29,6 @@ The modular architecture of MAX makes it possible to substitute one or several m
 
    usecase
    how_it_works
-   execute_MAX_model
-   develop_MAX_model
    how_to_get_access
    faq
    

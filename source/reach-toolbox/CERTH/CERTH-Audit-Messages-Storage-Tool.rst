@@ -22,21 +22,21 @@ Audit messages tracing
 
 An authorized user enters an Explorer providing a User interface and searches stored message logs based on a set of criteria. 
 
-.. image::
+.. image:: img/Audit messages tracing.png
 
 Audit messages storage
 ----------------------
 
 Two interoperable information systems send a message to each other using SoA and web services. An intermediate system filters critical messages, encrypts the sensitive parts if applicable, and encodes them in an appropriate format (e.g. JSON). The intermediate system sends the critical messages to the Smart Contracts deployed in the Blockchain network. The Smart Contracts store the critical messages in the Blockchain, in an immutable way.
 
-.. image::
+.. image:: Audit messages storage.png
 
 Messages integrity verification
 -------------------------------
 
 The Explorer queries the Smart Contracts deployed for the specific logs and returns them to the Explorer. If the User is authorized, they are able to see the details of the returned message and also verify the integrity of the message.
 
-.. image::
+.. image:: Messages integrity verification.png
 
 Use case
 --------

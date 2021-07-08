@@ -13,6 +13,6 @@ The Explorer is built with Angular.js and Angular Material, there is a node.js m
 Getting access to the Infrastructure
 ====================================
 
-.. note::
-To obtain access, contact us by mail to the consortium address.
+.. note:: 
+  To obtain access, contact us by mail to the consortium address.
 

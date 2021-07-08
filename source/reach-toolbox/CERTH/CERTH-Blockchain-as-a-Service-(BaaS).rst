@@ -30,8 +30,7 @@ Besides, BaaS features the view of historical transactions which addresses the R
 
 .. image:: img/Blockchain3.png
 
- 
- Use case
- --------
- 
- BaaS is adapted for companies developing a web/cloud platform that manages user data, and using a Blockchain network with deployed Solidity smart contracts that handle the permissions that the users of the platform give to other users.
+Use case
+--------
+
+BaaS is adapted for companies developing a web/cloud platform that manages user data, and using a Blockchain network with deployed Solidity smart contracts that handle the permissions that the users of the platform give to other users.

@@ -15,7 +15,7 @@ Getting access to the Infrastructure
 ====================================
 
 .. note:: 
-  To obtain access, contact us by mail to the consortium address.
+  To obtain access, contact us by mail (<krinidis@iti.gr>, <ggogos@iti.gr>) to the consortium address.
 
 
 Audit messages tracing

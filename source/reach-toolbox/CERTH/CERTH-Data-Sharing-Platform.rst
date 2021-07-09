@@ -9,7 +9,7 @@ Getting access to the Infrastructure
 ====================================
 
 .. note:: 
-  To obtain access, contact us by  `Login Datahub <https://intranet.datahub.iti.es/#/login>`_ to the consortium address.
+  To obtain access, contact us by  `mail <https://intranet.datahub.iti.es/#/login>`_ to the consortium address.
   
 Tool for Data Providers
 -----------------------

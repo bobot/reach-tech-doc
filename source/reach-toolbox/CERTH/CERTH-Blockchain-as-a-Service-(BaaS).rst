@@ -2,6 +2,7 @@ Overview of CERTH Blockchain as a Service (BaaS)
 ================================================
 
 BaaS is a Blockchain solution which allows the secure integration of Web / Cloud Platforms with a private Ethereum Blockchain with an aim to enable efficient permission management as regards the data of the platforms’ users. Via the BaaS, the platforms following functionalities are logged in the Blockchain as immutable transactions:
+
 1. User Registration
 2. User Login/Logout
 3. user requests permissions to access another user data

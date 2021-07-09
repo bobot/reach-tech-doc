@@ -7,9 +7,9 @@ The combination of the data integrity verification and the fact that only pointe
 
 Getting access to the Infrastructure
 ====================================
-
+krinidis@iti.gr
 .. note:: 
-  To obtain access, contact us by mail to the consortium address.
+  To obtain access, contact us by `mail <krinidis@iti.gr>`_ to the consortium address.
   
 Tool for Data Providers
 -----------------------

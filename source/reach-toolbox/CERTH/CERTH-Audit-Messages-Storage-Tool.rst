@@ -12,7 +12,7 @@ The purpose is to enable:
 The Explorer is built with Angular.js and Angular Material, there is a node.js middleware API and a hierarchy of smart contracts written in Solidity deployed on the Hyperledger Sawtooth Platform.
 
 Getting access to the Infrastructure
-====================================
+------------------------------------
 
 .. note:: 
   To obtain access, contact us by mail (<krinidis@iti.gr>, <ggogos@iti.gr>) to the consortium address.

@@ -10,7 +10,7 @@ BaaS is a Blockchain solution which allows the secure integration of Web / Cloud
 5. User updates the permissions to access their data. 
 
 Getting access to the Infrastructure
-====================================
+------------------------------------
 
 .. note:: 
   To obtain access, contact us by mail (<krinidis@iti.gr>, <ggogos@iti.gr>) to the consortium address.

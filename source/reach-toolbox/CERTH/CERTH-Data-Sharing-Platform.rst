@@ -6,7 +6,7 @@ CERTH/ITI has designed a Platform for enabling the data sharing and data permiss
 The combination of the data integrity verification and the fact that only pointers/references to the data are stored in the Blockchain, render the Platform compliant with GDPR by design. The Platform is currently under development and will be extended/adapted to meet the needs of REACH stakeholders.
 
 Getting access to the Infrastructure
-====================================
+------------------------------------
 
 .. note:: 
   To obtain access, contact us by mail (<krinidis@iti.gr>, <ggogos@iti.gr>) to the consortium address.

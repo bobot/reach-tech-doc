@@ -27,7 +27,7 @@ Within REACH, there is a need to establish an agreement between the sides of the
 Trace transactions
 ------------------
 
-Besides, BaaS features the view of historical transactions which addresses the REACH toolkit need for traceability of data transactions. BaaS is portable to other Blockchain Platforms in accordance with the needs of REACH. In frames of REACH, BaaS will be extended to log the critical actions covered by the data exchange that will be done by the REACH stakeholders, to support third parties data stewardships and time-restricted permissions; third party data stewardship will be based on the design specified in this work.
+In frames of REACH, BaaS will be extended to log the critical actions covered by the data exchange that will be done by the REACH stakeholders, to support third parties data stewardships and time-restricted permissions; third party data stewardship will be based on the design specified in this work.
 
 .. image:: img/Blockchain3.png
 

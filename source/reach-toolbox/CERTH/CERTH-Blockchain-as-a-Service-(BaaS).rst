@@ -13,8 +13,6 @@ BaaS is a Blockchain solution which allows secure data transactions between Data
 Getting access to the Infrastructure
 ------------------------------------
 
-.. note:: To obtain access, contact us by mail (<krinidis@iti.gr>, <ggogos@iti.gr>) to the consortium address.
-
 The access to the Platform will be made through the following steps:
 
 1. Send e-mail to the following consortium addresses, providing an e-mail address for the registration.
@@ -43,3 +41,7 @@ Use case
 --------
 
 BaaS is adapted for the management and sharing of user data, and it uses a Blockchain network with deployed Solidity smart contracts that handle the permissions that the users (CERTH) of the platform give to other users. The purpose of this tool is to provide an easy step data sharing procedure (sharing, management, traceability), like other platform, but with the integration of the security standards coming with the innovative Blockchain technology.
+
+
+.. note:: 
+To obtain access, contact us by mail (<krinidis@iti.gr>, <ggogos@iti.gr>) to the consortium address.

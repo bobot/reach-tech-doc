@@ -13,15 +13,15 @@ BaaS is a Blockchain solution which allows secure data transactions between Data
 Getting access to the Infrastructure
 ------------------------------------
 
+.. note::
+  To obtain access, contact us by mail (<krinidis@iti.gr>, <ggogos@iti.gr>) to the consortium address.
+
 The access to the Platform will be made through the following steps:
 
 1. Send e-mail to the following consortium addresses, providing an e-mail address for the registration.
 2. A response will be sent to the provided address with a link to verify the e-mail.
 3. After the verification of the address, the link will redirect the user to the registration page of the Platform.
 4. After the registration, a link will be sent to the user's e-mail address, for the verification of the user which will redirect the user to the Login page of BaaS. 
-
-.. note::
-  To obtain access, contact us by mail (<krinidis@iti.gr>, <ggogos@iti.gr>) to the consortium address.
   
 Login/Sign up
 -------------

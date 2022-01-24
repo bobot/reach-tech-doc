@@ -29,6 +29,8 @@ Within REACH, there is a need to establish an agreement between the sides of the
 
 Data Sharing
 ------------
+.. note:: 
+To obtain access, contact us by mail (<krinidis@iti.gr>, <ggogos@iti.gr>) to the consortium address.
 
 Through the Home Page of BaaS, the user will be able to see the available datasets provided to the Platform and make a request to the provider. The dataset page will provide information about the type of the data, the field of science (e.g. Medical & Health, Energy) and comments about their content. More information are provided in the Documentation of the CERTH Data Sharing Tool.
 
@@ -41,7 +43,3 @@ Use case
 --------
 
 BaaS is adapted for the management and sharing of user data, and it uses a Blockchain network with deployed Solidity smart contracts that handle the permissions that the users (CERTH) of the platform give to other users. The purpose of this tool is to provide an easy step data sharing procedure (sharing, management, traceability), like other platform, but with the integration of the security standards coming with the innovative Blockchain technology.
-
-
-.. note:: 
-To obtain access, contact us by mail (<krinidis@iti.gr>, <ggogos@iti.gr>) to the consortium address.

@@ -12,7 +12,8 @@ BaaS is a Blockchain solution which allows secure data transactions between Data
 Getting access to the Infrastructure
 ------------------------------------
 
-.. note:: To obtain access, contact us by mail (<krinidis@iti.gr>, <ggogos@iti.gr>) to the consortium address.
+.. note:: 
+  To obtain access, contact us by mail (<krinidis@iti.gr>, <ggogos@iti.gr>) to the consortium address.
 
 The access to the Platform will be made through the following steps:
 

@@ -12,7 +12,7 @@ BaaS is a Blockchain solution which allows secure data transactions between Data
 
 Getting access to the Infrastructure
 ------------------------------------
-
+.. note::
 The access to the Platform will be made through the following steps:
 
 1. Send e-mail to the following consortium addresses, providing an e-mail address for the registration.

@@ -8,8 +8,7 @@ Getting access to the Infrastructure
 
 The Data Sharing Tool is integrated into the BaaS Platform, so any access to it is made through the Platform.
 
-.. note:: 
-  To obtain access, contact us by mail (<krinidis@iti.gr>, <ggogos@iti.gr>) to the consortium address.
+.. note:: To obtain access, contact us by mail (<krinidis@iti.gr>, <ggogos@iti.gr>) to the consortium address.
   
 Use case
 --------

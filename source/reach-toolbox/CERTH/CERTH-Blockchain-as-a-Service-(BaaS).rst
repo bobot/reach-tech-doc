@@ -12,6 +12,7 @@ BaaS is a Blockchain solution which allows secure data transactions between Data
 
 Getting access to the Infrastructure
 ------------------------------------
+
 .. note::
 The access to the Platform will be made through the following steps:
 
@@ -29,9 +30,6 @@ Within REACH, there is a need to establish an agreement between the sides of the
 
 Data Sharing
 ------------
-
-.. note:: 
-To obtain access, contact us by mail (<krinidis@iti.gr>, <ggogos@iti.gr>) to the consortium address.
 
 Through the Home Page of BaaS, the user will be able to see the available datasets provided to the Platform and make a request to the provider. The dataset page will provide information about the type of the data, the field of science (e.g. Medical & Health, Energy) and comments about their content. More information are provided in the Documentation of the CERTH Data Sharing Tool.
 

@@ -29,6 +29,7 @@ Within REACH, there is a need to establish an agreement between the sides of the
 
 Data Sharing
 ------------
+
 .. note:: 
 To obtain access, contact us by mail (<krinidis@iti.gr>, <ggogos@iti.gr>) to the consortium address.
 

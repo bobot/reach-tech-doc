@@ -20,6 +20,7 @@ The access to the Platform will be made through the following steps:
 3. After the verification of the address, the link will redirect the user to the registration page of the Platform.
 4. After the registration, a link will be sent to the user's e-mail address, for the verification of the user which will redirect the user to the Login page of BaaS. 
 
+
 .. note:: 
   To obtain access, contact us by mail (<krinidis@iti.gr>, <ggogos@iti.gr>) to the consortium address.
   

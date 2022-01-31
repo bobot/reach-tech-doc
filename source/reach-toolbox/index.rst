@@ -14,3 +14,6 @@ Introduction
    proregister/index
    smart-contracts-verifier/index
    unisim/index
+   CERTH/CERTH-Audit-Messages-Storage-Tool
+   CERTH/CERTH-Blockchain-as-a-Service-(BaaS)
+   CERTH/CERTH-Data-Sharing-Platform

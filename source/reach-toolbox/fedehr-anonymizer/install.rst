@@ -36,14 +36,14 @@ How to get a Trial Account
 **************************
 
 In order to get a trial account on our test server to evaluate the Fedehr Anonymizer,
-just send a email to: support.anonymizer@gnubila.fr.
+just send an email to: support.anonymizer@gnubila.fr.
 
 It's possible to request a user account or an application account.
 
 * User accounts are for using the Anonymizer services with the web app GUI.
-    * In order to create your user account, please provide us with a username, a valid email and the project context in which this account will be used.
-* Application accounts are for connecting and using the Anonymizerservices through the REST api.
-    * In order to create your application account, please provide us with an application username and the project context in which this account will be used.
+    * In order to create your user account, please provide us with a username, a valid email and specify that this account will be used in the context of the REACH project.
+* Application accounts are for connecting and using the Anonymizer services through the REST api.
+    * In order to create your application account, please provide us with an application username and specify that this account will be used in the context of the REACH project.
 
 Your account temporary password will be replied to your request email.
 A new password will be asked on your first connection.
@@ -114,7 +114,7 @@ support the General Data Protection Regulation
 Master Patient Index
 ********************
 
-The Master Patient Index (MPI) is an electronic database use for the reversible
+The Master Patient Index (MPI) is an electronic database used for the reversible
 pseudonymization process. The MI stores and maintains a correspondence
 between the original data and the one which has been produced to replace
 it. For the moment, only the following functions use this database: *
@@ -129,7 +129,7 @@ Security
 OpenId security
 ***************
 
-The Anonymizer is available as a Sofware as a Service application.
+The Anonymizer is available as a Software as a Service application.
 To secure its access an OpenId implemented solution by Keycloak is used.
 
 Three types are accounts are available:
@@ -146,11 +146,11 @@ Client Application Account Curl Examples
 
 * Retrieving a client application Token for Keycloak or IAM curl
 
-This example use our rcc server.
+This example uses our rcc server.
 
 Replace my_client_name and my_client_secret by those provided.
 
-In Response your will recieve the authentification Token.
+In Response you will recieve the authentification Token.
 This Token will have a very short lifespan.
 
 ::
@@ -158,9 +158,9 @@ This Token will have a very short lifespan.
 	curl --insecure -d 'client_id='my_client_name -d 'client_secret='my_client_secret -d 'grant_type=client_credentials' https://rec.client.almerys.com/auth/realms/fedehr_ano/protocol/openid-connect/token | jq -r '.access_token'
 
 
-Example of calling the anonymization process api on an csv file. This example use our rcc server.
+Example of calling the anonymization process api on a csv file. This example uses our rcc server.
 
-Add your authentification token after Bearer in -H "Authorization: Bearer ".
+Add your authentication token after Bearer in -H "Authorization: Bearer ".
 
 Replace the paths /home/user/Documents/my_csv_file.csv and > my_csv_file_processed.csv by yours.
 
@@ -181,7 +181,7 @@ start by installing mhonarc
 
 Curl example of parsing a multipart response.
 
-Add your authentification token after Bearer in -H "Authorization: Bearer ".
+Add your authentication token after Bearer in -H "Authorization: Bearer ".
 
 Replace the paths /home/user/Documents/my_csv_file.csv and > my_csv_file_processed.csv by yours.
 
@@ -203,8 +203,8 @@ The Profile Generator
 First a form about the Profile MetaData must be filled as follows.
 
 * Name: enter the name of your profile (Mandatory field).
-* Nature of Data: choose a profile type in a available profile type list according to the nature of the dataset to anonymize. This will help the anonymizer to ananylise and classify your data (Mandatory field)
-* Synthax version: the version of the YAML profile and function language. Use V1 by default (Mandatory field).
+* Nature of Data: choose a profile type in an available profile type list according to the nature of the dataset to anonymize. This will help the anonymizer to analyze and classify your data (Mandatory field)
+* Syntax version: the version of the YAML profile and function language. Use V1 by default (Mandatory field).
 * Description: a short description of the Profile to document and help the users who will run it.
 
 
@@ -220,7 +220,7 @@ First a form about the Profile MetaData must be filled as follows.
 The three ways of creating a Profile
 ====================================
 
-The GUI provides three differents ways to create a profile.
+The GUI provides three different ways to create a profile.
 
 
 .. figure:: images/profile-generator-02.png
@@ -236,11 +236,11 @@ Creating a Profile from Existing Datas
 
 If a sample small dataset of the data to anonymize is available.
 The "From Data" feature can be used from the Profile Generator menu.
-A upload of the sample dataset will be asked in order to analyse it with the AI model provided by the Anonymizer.
-"Tags" or data "Field Names" will be extracted and their level of sensibility will be caracterized to help building an Anonymization profile.
+An upload of the sample dataset will be asked in order to analyze it with the AI model provided by the Anonymizer.
+"Tags" or data "Field Names" will be extracted and their level of sensibility will be characterized to help build an Anonymization profile.
 
 The data sample can be of various formats such as XML, CSV, JSON or DICOM.
-For each format additional caracteristics about the file will be asked.
+For each format additional characteristics about the file will be asked.
 
 
 .. figure:: images/profile-generator-03.png
@@ -256,7 +256,7 @@ Creating a Profile from Existing Profile Templates
 
 If a Profile template or an old profile is already existing.
 The "From Template" feature can be used from the Profile Generator menu.
-A upload of the existing YAML profile template will be asked.
+An upload of the existing YAML profile template will be asked.
 This template will then be loaded in the editor.
 
 
@@ -280,7 +280,7 @@ Using this option, the Profile Manager will be directly offered a blank profile 
 The Profile List
 ****************
 
-In the profile list, all the profile a user have access will be displayed and organized by their profile type.
+In the profile list, all the profiles a user has access to will be displayed and organized by their profile type.
 
 
 .. figure:: images/profile-list-01.png
@@ -290,19 +290,19 @@ In the profile list, all the profile a user have access will be displayed and or
   :align: right
 
 
-From there a user can (if he have the access rights): view, edit, duplicate, dowload, delete or display existing anterior version of a profile.
+From there a user can (if he has the access rights): view, edit, duplicate, download, delete or display existing anterior version of a profile.
 
 
 ========================
 Running Profiles on Data
 ========================
 
-From this menu a user who have the access rights can select a profile from the available list.
+From this menu a user who has the access rights can select a profile from the available list.
 It's also possible to run an anterior version of the profile by selecting it in its versions list.
 Then the user can choose the format of the file of the dataset to anonymize.
 Various formats are handled by the Anonymizer such as XML, CSV, JSON or DICOM.
-For each format additional caracteristics about the file will be asked.
-Finnally the user can upload the dataset file and run the anonymization.
+For each format additional characteristics about the file will be asked.
+Finally the user can upload the dataset file and run the anonymization.
 
 .. figure:: images/profile-run-01.png
   :width: 1600px
@@ -320,17 +320,17 @@ POST entry point of the REST API is "/anonymizer/v1/process-image".
 It takes as entry parameters: the profile id, profile version number, the pdf file to anonymize
 and a json data containing the page number with the coordinates of the blacking rectangles to create in the file.
 
-the ouput will be a anonymized pdf file.
+the output will be an anonymized pdf file.
 
 
 The description of the REST API (Swagger) : https://fedehran1-rcc.almerys.local/swagger-ui.html go to generic-anonymizer-rest-controller section and POST /anonymizer/v1/process-image
 
 The url of the RCC environment to use: https://fedehran1-rcc.almerys.local/
 
-A beIAM/Keycloak application account is needed to obtain identification tokens, for exemple app_user_ano.
-The "client_secret" associated to the application account will also be required.
+A beIAM/Keycloak application account is needed to obtain identification tokens, for example app_user_ano.
+The "client_secret" associated with the application account will also be required.
 
-If just the blanking of the pdf is needed an exemple of an empty profile can be used, like the one below.
+If just the blanking of the pdf is needed an example of an empty profile can be used, like the one below.
 
 ::
 
@@ -343,16 +343,16 @@ If just the blanking of the pdf is needed an exemple of an empty profile can be 
     risk_check: 0
 
 
-Retrieve the id of the profile and its version, here for exemple: 10 and version: 1.
+Retrieve the id of the profile and its version, here for example: 10 and version: 1.
 
-Here an exemple of the json containing the coordinates of the blanking zones:
+Here an example of the json containing the coordinates of the blanking zones:
 
 ::
 
 	[{"tag":"birthdate","value":"","startPixelX":440,"startPixelY":80,"endPixelX":567,"endPixelY":96,"pageNumber":0},{"tag":"height","value":"","startPixelX":54,"startPixelY":96,"endPixelX":108,"endPixelY":110,"pageNumber":0},{"tag":"weight","value":"","startPixelX":156,"startPixelY":96,"endPixelX":208,"endPixelY":110,"pageNumber":0},{"tag":"checkboxes","value":"","startPixelX":499,"startPixelY":194,"endPixelX":567,"endPixelY":520,"pageNumber":0}]
 
 
-Curl call exemple to generate the identification token:
+Curl call example to generate the identification token:
 
 ::
 
@@ -741,7 +741,7 @@ The AI model allows to detect 19 classes:
 
 * *PERSON_CHARACTERISTIC*: A person characteristic like weight, gender, age... 
 
-* *LOC*: A location like a address.
+* *LOC*: A location like an address.
 
 * *PARTIAL_LOC*: A partial location like city, a country or a district, a post code....
 
@@ -753,7 +753,7 @@ The AI model allows to detect 19 classes:
 
 * *TEL*: A telephone number.
  
-* *IP*: A IP address.
+* *IP*: An IP address.
 
 * *URL*: An URL.
  
@@ -827,7 +827,7 @@ For tags classified with a low confidence rate (<30 %), a pictogram appears.
 UNKNOWN
 *******
 
-Unclassified tag are badged as UNKNOWN data. Its means the Ai process doesn't find a classification for the tag.
+Unclassified tags are badged as UNKNOWN data. It means the Ai process doesn't find a classification for the tag.
 In this case, the box background is white.
 
 
@@ -846,17 +846,17 @@ Entropy
 
 Entropy is a metric used in information theory. It measures the amount of information contained in data.
 
-For more informations about entropy, click https://en.wikipedia.org/wiki/Entropy_(information_theory)[here].
+For more information about entropy, click https://en.wikipedia.org/wiki/Entropy_(information_theory)[here].
 
 The special feature of this measure is that it is bounded, so can be normalized. +
-The result can be express as a number between 0 and 1 (or 0 and 100 as for Anonymizer).
+The result can be expressed as a number between 0 and 1 (or 0 and 100 as for Anonymizer).
 
 ======================
 Entropy with threshold
 ======================
 
 The entropy normalized is a good indicator but it is sensitive to some side effects.
-Add a threshold to entropy enable to reduce this effect.
+To reduce this effect, a threshold has been addded to the entropy enable calculation.
 
 *****
 Usage
@@ -864,10 +864,10 @@ Usage
 
 The entropy calculation is available only for CSV, JSON and XML files.
 
-Entropy allows to evaluate the quality of the anonymization of partially identifying variables.
+The Entropy metric provides a quality evaluation of the partially identifying variables anonymization.
 It is possible to evaluate the entropy of the data before and after anonymization. +
-Before anonymization, sensitive and partially identifying data are use to calculate entropy. +
-After anonymization, partially identifying data sensitive partially anonymized are use for the calculation. +
+Before anonymization, sensitive and partially identifying data are used to calculate entropy. +
+After anonymization, partially identifying data sensitive partially anonymized are used for the calculation. +
 The difference between these two values shows the masking of the information.
 
 =====
@@ -892,9 +892,9 @@ Input
 Interpretation
 ==============
 
-The entropy result is an number between 0 and 100.
+The entropy result is a number between 0 and 100.
 
-A high value of entropy should be interpreted as data enable a statistic identification.
+A high value of entropy should be interpreted as data enabling a statistical identification.
 partially identifying data (indirect identification) data is not sufficiently or efficiently treated.
 
-With a Low value of entropy, a statistic identification is not possible on the data.
+With a Low value of entropy, a statistical identification is not possible on the data.

@@ -22,12 +22,15 @@ Audit messages storage
 
 Two interoperable information systems send a message to each other using SoA and web services. An intermediate system filters critical messages,provided by the participants, encrypts the sensitive parts if applicable, and encodes them in an appropriate format (e.g. JSON). The intermediate system sends the critical messages to the Smart Contracts deployed in the Blockchain network. The Smart Contracts store the critical messages in the Blockchain, in an immutable way.
 
+.. image:: img/Audit4.png
+
+
 Audit messages tracing
 ----------------------
 
 An authorized user enters a Swagger API interface and searches stored message logs based on a set of criteria. The users who provided the critical data, can check who asks access to their data and they give permission if needed.
 
-.. image:: img/Audit1.png
+.. image:: img/Audit5.png
 
 
 Messages integrity verification
@@ -35,7 +38,8 @@ Messages integrity verification
 
 The Swagger queries the Smart Contracts deployed for the specific logs and returns them in JSON format. If the User is authorized, they are able to see the details of the returned message and also verify the integrity of the message.
 
-.. image:: img/Audit3.png
+.. image:: img/Audit6.png
+
 
 Use case
 --------

@@ -41,4 +41,4 @@ BaaS features the view of historical transactions which addresses the REACH tool
 Use case
 --------
 
-BaaS is adapted for the management and sharing of user data, and it uses a Blockchain network with deployed Solidity smart contracts that handle the permissions that the users (CERTH) of the platform give to other users. The purpose of this tool is to provide an easy step data sharing procedure (sharing, management, traceability), like other platform, but with the integration of the security standards coming with the innovative Blockchain technology.
+BaaS is adapted for the management and sharing of user data, and it uses a Blockchain network with deployed Solidity smart contracts that handle the permissions that the users (CERTH) of the platform give to other users. The purpose of this tool is to provide an easy step data sharing procedure (sharing, management, traceability), like other platforms, but with the integration of the security standards coming with the innovative Blockchain technology.

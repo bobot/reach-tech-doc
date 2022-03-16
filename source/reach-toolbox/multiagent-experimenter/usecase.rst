@@ -1,5 +1,6 @@
+############
 Use Case
-=============================
+############
 
 I am developing a blockchain-based solution. I need a multi-agent simulation tool to evaluate scalability, stability, performance, fairness, etc., as well as testing the adaptability features of my system, e.g. automatic and dynamic load balancing, elasticity and self-healing networks.
 

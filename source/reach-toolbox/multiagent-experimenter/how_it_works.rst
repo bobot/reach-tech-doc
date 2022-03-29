@@ -14,9 +14,10 @@ Since MAX is a java application. Each model is a java application and is execute
 
 Command: java –jar model.jar –experimenter experimenter.xml
 
-The figure below shows the execution of one of MAX models, Bitcoin, with some data inspectors enabled. At the center of the simulation, the scheduler which allows to adjust the simulation speed, even pause it if necessary.
-It is surrounded by data inspectors chosen to appear in this simulation. Namely, a general data inspector which shows the state of the network with (from left to right) a line chart of the number of agents as a function of time, an illustration of the network topology in real time as well as certain network parameters displayed at the right of the figure.
+The figure below shows the execution of one of MAX models, Bitcoin, with some data inspectors enabled. These data inspectors were chosen to appear in this simulation. Namely, a general data inspector which shows the state of the network with (from left to right) a line chart of the number of agents as a function of time, an illustration of the network topology in real time as well as certain network parameters displayed at the right of the figure.
 Two bar chart figures follow. One that tells us about the block creation activity and another about the merits of block creators. And finally, a table that contains information on the blocks added to the blockchain (height, number of transactions…).
+
+Note that in the latest version of MAX (1.2.0), data inspectors export data in .csv files with a generation of graphs at the end of the simulation.
 
 .. image:: img/executionExample.png
 

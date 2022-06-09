@@ -2,7 +2,7 @@
 
 
 
-/*@ requires valid_p: \valid(p + (0 .. l-1));
+/* requires valid_p: \valid(p + (0 .. l-1));
     assigns p[0 .. l-1] \from Frama_C_entropy_source;
     assigns Frama_C_entropy_source \from Frama_C_entropy_source;
     ensures initialization: \initialized(p + (0 .. l-1));

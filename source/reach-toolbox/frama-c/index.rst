@@ -3,8 +3,7 @@ Frama-C Tutorial: Parser
 
 Requirements (available on Reach big data infrastructure):
 
--  `Frama-C <http://frama-c.com>`_ version ...
--  Why3 version ...
+-  `Frama-C <http://frama-c.com>`_ version 25.0~beta
 -  Alt-Ergo
 -  Z3 (do not install via opam; use a distribution package if possible)
 -  Why3 and Frama-C GUI configured to use both Alt-Ergo and Z3
@@ -56,7 +55,10 @@ instrument it with E-ACSL, and finally finalize the proof with WP.
 Compilation and execution of the program
 ----------------------------------------
 
-First, you should copy ` ``parser0.c`` <parser0.c>` into ``parser.c``. Then you can run
+First, you should download ` ``parser0.c``
+<https://raw.githubusercontent.com/REACH-Incubator/reach-tech-doc/main/source/reach-toolbox/frama-c/parser0.c>`
+into ``parser.c`` and download the ` ``Makefile`` <https://raw.githubusercontent.com/REACH-Incubator/reach-tech-doc/main/source/reach-toolbox/frama-c/Makefile>`.
+Then you can run
 ``make run_test``. The output should be:
 
 ::
@@ -79,8 +81,9 @@ ages 20 and 21, and two of his grand-parents, of ages 48 and 45.
 | |genealogie|
 
 You should inspect the file ``parser.c`` in order to have a first idea
-of the different functions used. ``emacs`` is available in the virtual
-machine.
+of the different functions used.
+..
+   ``emacs`` is available in the virtual machine.
 
 .. literalinclude:: parser0.c
    :language: c
@@ -281,6 +284,10 @@ companion script of E-ACSL:
 
 ::
 
+   e-acsl-gcc.sh -c -e "-Ilib_extra_eacsl/" -E "-Ilib_extra_eacsl" -l \
+   lib_extra_eacsl/lib_extra_eacsl.o parser.c
+
+..
    e-acsl-gcc.sh -C -c -e "-Ilib_extra_eacsl/" -l lib_extra_eacsl/lib_extra_eacsl.o annotated.c
 
 This script performs linking with the instrumentation library of E-ACSL.

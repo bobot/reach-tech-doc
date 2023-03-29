@@ -150,7 +150,7 @@ C. **Copy your data**
 To copy your data to FactoryIA **you must always copy files from your
 pc** to FactoryIA. (Because FactoryiA is exposed to internet)
 
-``$>``
+``$> scp fromYourPCLocation yourf1login@factoryia:Path``
 
 To get your IP address:
 
@@ -717,7 +717,7 @@ At the end of your script execution display
 -  **For binary code (i.e. C++)** if you feel that your code is too slow
    you can use
 
-``$> top in order to see  activity, memory and IO wait (wa)``
+``$> top in order to see CPU activity, memory and IO wait (wa)``
 
 ``$> htop``
 
